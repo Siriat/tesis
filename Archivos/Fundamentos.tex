@@ -1,0 +1,77 @@
+\chapter{Fundamentos}
+
+    \section{Resumen del capítulo}
+    
+    
+    \section{related work}
+    There have been several works on this task, as it is one of the most common task, some works are listed on the surveys [1][2], as there can be seen on those works the use of a vision system is been common for a long time, at the beginning it was not so recommendable as the frame rate and the algorithms, were slow, as commented in [3], now with RGBD cameras is more simple to work the deep sensor in the same way we use a camera, this have been useful because it’s easier to work the vision algorithm on the RGB image and the Deep image at.\\
+    One of the works we are using as reference [4] uses a hypothetical vision system to know the position and some other proprieties of the object, in our case we use an ultrasonic sensor to estimate these proprieties as in some previous works [6] of this laboratory.\\
+    One object can have an infinite number of grasping points, to choose there is a need to have hypotheses, the one we will be using is based in how humans grasp an object, similar to work [7] in which there had results based on neuroscience that showed that a human does not use all of the DOF of its hand, with this the DOF of hands could be reduced, to fit what was called eigengrasps, which were pre-grasp postures. In work [8] they use a cloud point object representation and then use human grasp examples to have some empirical knowledge for the grasping.\\
+    The control we will be using is proposed in [5], this control fuzzy rule emulated network (FREN), is a very simple and easy to set up, we will be using it because of its adaptive part.\\
+    \section{TESTING BENCH}
+    The platform we are using is a 3 DOF Cartesian robot seen in Fig. 1, it uses a signal generator for the input voltage to the DC motors, we are using MATLAB as the interface between, the vision system the control and the function generator.\\
+    The gripper we will be using is the SCHUNK WSG-50 which appears in Fig. 2, it has a force observer, it uses a 24V source, the opening is 10cm and it can be use d with MATLAB to be operated.\\
+    The vision system is composed of one RGBD camera on Fig. 3, which is wrapped to MATLAB, we will be using the ASUS XTION PRO, it's deep sensor has an operational range of 0.8 meters to 3.5 meters, the image resolution for the color image and the deep image is 480x640, and the frame rate is 20 frames per second, as this is the frame rate of the deep sensor.\\
+    
+    
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9821}
+	\caption{}
+	\label{fig:dsc9821}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9822}
+	\caption{}
+	\label{fig:dsc9822}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9823}
+	\caption{}
+	\label{fig:dsc9823}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9824}
+	\caption{}
+	\label{fig:dsc9824}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{Imagenes/DSC_9825}
+	\caption{}
+	\label{fig:dsc9825}
+\end{figure}
+    
+    
+    \section{METHODOLOGY}
+    We explain the methodology of each of me main parts of the work: the vision system, the positioning system and the gripper, a flow chart can be seen in Fig. 4.\\
+    \subsection{Vision system}
+    %The information that will be get form the vision system, is the position and is the position of the object in X, Y, Z coordinates, the RGBD camera will get the deep image to make the object segmentation, as the deep image is on millimeter, is easy to discriminate the objects, jus eliminating any pixel higher or lower than the desired, once segmentation is made and we get some region proprieties, we look for the gripper in the image and the we look for the object, a first approach has been used but it is expected to improve in the future. After we find the objects in the image, we save some data about them, as current position, so that the second iteration can be made faster, segmenting just the part where the object is, this was chosen instead of using one initial image to do the control, because we would like to expect the object to be moving slowly.\\
+    %Once we reach the object we start closing the gripper with the FREN control and the force sensor until we star having response form the force sensor, then we adjust the force to be the minimum possible.\\
+    
+    
+    \subsection{FREN}
+    
+    
+    
+    \subsubsection{Multiple input FREN}
+    
+    
+    
+    en este apartado se exoplican los cambios que se deben hacer para poder cambiar de una FREN normal a una de multiples entradas, 
+    
+    
+    
+    En \cref{codigo} se presenta el codigo que fue usado para esta seccion, y se explican algunos detalles de la implementacion en Matlab.
+    
+    
+    para el caso de una entrada se tienen las ecuaciones\cref{labellist}, de lo que es importante recordar que la evaluacion se lleva a cavo con \cref{labellist}, en este caso se resume como una multiplicacion de vectores, en el caso de multiples entradas el diagrama \cref{labellist} se puede observar la relacion entre las entradas y los pesos, lo cual es ligeramente distinto al normal. una generalizacion de este es \begin{equation}
+    lc=a*\beta * b
+    \end{equation}, donde $\beta \in \Re^{n \times m} $ $a \in \Re^{1\times (n_1*n_2*n_3...)} $
+    
+    
+    
+    

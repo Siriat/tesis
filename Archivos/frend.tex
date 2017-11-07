@@ -1,0 +1,202 @@
+    \chapter{Decisión de fuerza para el \textit{Griper}}
+    \section{Introducción}
+    La decisión de la fuerza que se usara esta a cargo de un control FREN sin realimentación de estado, en si es un control FREN fuera de linea, la estructura que se desea usar puede ser observada en la imagen \ref{fig:mfren2}, a diferencia de la estructura usada para el control, en este caso se tienen 3 entradas. %, por lo que existen ciertas diferencias, por lo que se explicara desde el principio para poder entenderlo.
+    En este caso comenzaremos definiendo las entradas, estas entradas son dadas por el usuario por lo tanto se consideran como constantes, ya que no hay otra forma de conseguirlas, estas entradas son factores o indicadores que representan magnitudes según las entiende el usuario y son medidas en una escala del 0 al 1, donde 0 es un valor que no contribuye a que se aplique mas fuerza y 1 es un valor en el que se requiere que se aplique mas fuerza.
+    
+    \section{Mecánica de sujeción}
+    
+    La sujeción de objetos se puede definir como la aplicación de fuerzas sobre un objeto para restringir su movimiento a pesar de la existencia de perturbaciones, la finalidad de la sujeción no es solo la restricción, sino también el movimiento deseado de la posición y orientación.
+    La sujeción se puede dividir en 2 tipos, sujeción por forma o por fuerza. La sujeción por forma es aquella en la que los dedos se amoldan al contorno del objeto, encerrándolo sin dejar espacio para moverse, la sujeción se considera exitosa mientras se puedan conservar los puntos de contacto suficientes, para un cuerpo libre, con 6 grados de libertad, 3 de posición y 3 de orientación se necesitan al menos 7 puntos de contacto para realizar sujeción por forma.
+    La sujeción por fuerza es aquella que usa la fuerza de fricción para evitar que el objeto se mueva, el beneficio de usar fricción dentro del modelo es se disminuyen los puntos de contacto, solo se necesitan 3 puntos de contacto para sujeción por fuerza si se usa un modelo con dedos rígidos, pero se puede reducir a 2 si se usa un modelo con dedos flexibles.
+    
+
+    
+    \section{FREN de múltiples entradas}
+    Cada una de estas entradas es convertida a valores difusos que corresponde con la ecuación \ref{eqmu}, con la diferencia de que esta estará no esta en función del error, solo para hacer distinción se definirá como:
+    \begin{equation}
+    \label{eqmmu}
+    \mu_a=\begin{bmatrix}
+    	\mu_{PLe}(in_a) \\ 
+    	\mu_{PSe}(in_a)\\ 
+    	\mu_{PZe}(in_a)\\ 
+    	\mu_{PSe}(in_a)\\ 
+    	\mu_{PLe}(in_a)
+    \end{bmatrix}  ,
+\end{equation}
+    donde $\mu_a$ es la función de pertenencia de la entrada $in_a$.
+    
+    La consecuencia lineal de esta red se define como las combinaciones del producto de las entradas ponderadas por su peso característico $\beta_n$ o $\beta_{ijk}$
+    esto se puede expresar como: \begin{equation}
+    lc_{ijk}=\mu_{ai}\ \mu_{bj} \ \mu_{ck} \ \beta_{ijk},
+    \end{equation}
+    esto es el producto del elemento $i$ de la entrada $a$ por el elemento $j$ de la entrada $b$ por el elemento $k$ de la entrada $c$ por un valor especifico, esto nos da un valor de combinaciones de $r^{in}$, donde \textit{r} es el numero de reglas que tenga cada $\mu$, para el caso en que todas tengan el mismo numero, y in es el numero de entradas, lo que para este caso seria $5^3 = 125$ o $\prod_{1}^{in} r_n$
+    en un caso mas general.
+    
+    Por ultimo la ultima etapa es la salida la cual al igual que la anterior es la sumatoria de los elementos en la consecuencia lineal, \begin{equation}    U(k)= \sum lc_{ijk} ,
+    \end{equation}
+    \begin{equation}
+    U(k)= \sum  \mu_{ai} \mu_{bj} \mu_{ck} \beta_{ijk}  ,
+    \end{equation}
+    
+     En este caso resulta imposible usar el producto punto pero, en el caso de 2 entradas se puede realizar una multiplicacion matricial, con solo cambiar arreglar los valores de beta como una matriz, el resultado de esto seria \begin{equation}
+     \label{multu}
+     U(k)= \mu_{a}^{T} \beta_{ij} \mu_{b} ,
+     \end{equation}  donde $\beta_{ij}$ es una matriz de dimensiones $(r_1 \times r_2)$, que para este ejemplo de 2 entradas seria:
+     
+    \begin{equation}
+     \small{
+    \begin{bmatrix}
+    \mu_{PLe}(in_a) & \mu_{PLe}(in_a) & \mu_{PLe}(in_a) & \mu_{PLe}(in_a) & \mu_{PLe}(in_a)
+    \end{bmatrix} } \begin{bmatrix}
+   \beta_{11} &\beta_{12}  &\beta_{13}  &\beta_{14}  &\beta_{15}  \\ 
+   \beta_{21} & \beta_{22} & \beta_{23} & \beta_{24} & \beta_{25} \\ 
+   \beta_{31} &\beta_{32}  &\beta_{33}  &\beta_{34}  &\beta_{35}\\
+   \beta_{41} &\beta_{42}  &\beta_{43}  &\beta_{44}  &\beta_{45}\\
+   \beta_{51} &\beta_{52}  &\beta_{53}  &\beta_{54}  &\beta_{55}    \end{bmatrix}    \begin{bmatrix}
+   \mu_{PLe}(in_b) \\ 
+    \mu_{PLe}(in_b)\\ 
+    \mu_{PLe}(in_b)\\ 
+    \mu_{PLe}(in_b)\\ 
+    \mu_{PLe}(in_b)
+    \end{bmatrix}
+    \end{equation}
+    Este ejemplo puede extenderse a $m$ numero de entradas con $r_m$ numero de reglas para cada entrada, esto se consigue usando el producto de Kroneker,  en las entradas excedentes, combinándolas en una sola entrada, la aplicación de este programa se encuentra en \cref{labellist}, pudiéndose simplificar al caso de 2 entradas \ref{multu} o al de una entrada \ref{u},en el caso de los valores para $\beta$, se puede definir una $\beta$ individual para cada entrada,de la misma manera que en el caso de una entrada, y realizar el mismo producto de Kroneker a los valores de $\beta$, para ajustar su arreglo, en cuyo caso conviene un poco mas la forma de \cref{multu}, ya que los valores de $\beta$ terminarían siendo una matriz de bloques que se asemeja a los valores que se encuentran en \cref{tab:betas1}, gracias a eso es un poco mas clara la relación, y es mas fácil inicializar la tabla completa.
+    
+    Por ultimo, hace falta comentar que esta es una decisión que al no depender de valores de error, no tiene una fase de aprendizaje, por lo que los valores de la tabla serán los que se usen.
+   
+    
+    \begin{figure}[h]
+    	\centering
+    	\includegraphics[width=0.6\linewidth]{visio/mfren2}
+    	\caption{}
+    	\label{fig:mfren2}
+    \end{figure}
+    
+    
+    
+       \begin{table}[h]
+    	\caption{Tabla de valores para MiFREND} \label{tab:betas1} 
+    	\centering
+    \footnotesize 
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		$FRA=0.2$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+    		\hline  
+    		\hline  
+    		$FRI_L$&	 5.0000 &   6.2996 &   7.2112 & 7.9370 &  8.5499\\
+    		
+    		$FRI_{Ml}$&	6.2996  &  7.9370 &   9.0856 &  10.0000  & 10.7722\\
+    		
+    		$FRI_M$&	7.2112 &   9.0856 &  10.4004 &  11.4471 &  12.3311\\
+    		
+    		$FRI_{Mh}$&	7.9370 &  10.0000 &  11.4471 &  12.5992 &  13.5721\\
+    		
+    		$FRI_H$&	8.5499  & 10.7722 &  12.3311 &  13.5721 &  14.6201\\
+    		\hline 
+    	\end{tabular} \\
+    	\bigskip
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+	   		$FRA=0.4$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+    		\hline  
+    		\hline  
+    		$FRI_L$&6.2996&    7.9370  &  9.0856   &10.0000 &  10.7722\\
+    		$FRI_{Ml}$&7.9370  & 10.0000 &  11.4471 &  12.5992 &  13.5721\\
+    		$FRI_M$&9.0856  & 11.4471  & 13.1037 &  14.4225  & 15.5362\\
+    		$FRI_{Mh}$&10.0000 &  12.5992  & 14.4225&   15.8740  & 17.0998\\
+    		$FRI_H$&10.7722 &  13.5721  & 15.5362&   17.0998  & 18.4202\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		$FRA=0.6$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+    		\hline  
+    		\hline  
+    		$FRI_L$&	7.2112 &   9.0856 &  10.4004 &  11.4471 &  12.3311\\
+    		$FRI_{Ml}$&	9.0856  & 11.4471 & 13.1037 &  14.4225  & 15.5362\\
+    		$FRI_M$&	10.4004  & 13.1037 &  15.0000 &  16.5096 &  17.7845\\
+    		$FRI_{Mh}$&	11.4471  & 14.4225 &  16.5096 &  18.1712 &  19.5743\\
+    		$FRI_H$&	12.3311  & 15.5362 &  17.7845 &  19.5743 &  21.0858\\
+    		\hline 
+    	\end{tabular} \bigskip
+    	\\
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		$FRA=0.8$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+			\hline  
+    		\hline  
+    		$FRI_L$&7.9370  & 10.0000 &  11.4471  & 12.5992  & 13.5721\\
+    		$FRI_{Ml}$&10.0000 &  12.5992 &  14.4225 &  15.8740 &  17.0998\\
+    		$FRI_M$&11.4471 &  14.4225 &  16.5096 &  18.1712 &  19.5743\\
+    		$FRI_{Mh}$&12.5992 &  15.8740 &  18.1712 &  20.0000 &  21.5443\\
+    		$FRI_H$&13.5721 &  17.0998 &  19.5743 &  21.5443 &  23.2079\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    	\pagebreak
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		$FRA=0.2$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+    		\hline  
+    		\hline  
+    		$FRI_L$&8.5499  & 10.7722 &  12.3311  & 13.5721 &  14.6201\\
+    		$FRI_{Ml}$&10.7722 &  13.5721 &  15.5362 &  17.0998 &  18.4202\\
+    		$FRI_M$&12.3311 & 15.5362  & 17.7845  & 19.5743  & 21.0858\\
+    		$FRI_{Mh}$&13.5721 &  17.0998 &  19.5743 &  21.5443 &  23.2079\\
+    		$FRI_H$&14.6201 &  18.4202 &  21.0858 &  23.2079 &  25.0000\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    \end{table}
+
+\section{Resultados}
+Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados,  pero por el hecho de conseguirse con el producto de vectores, la forma en la que crece es de $x^{in}$, esto es un inconveniente cuando se desea que los resultados sean mas lineales.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{visio/responce}
+	\caption{}
+	\label{fig:responce}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=0.3\linewidth]{visio/visio/force05}
+	\label{fig:force0}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=0.3\linewidth]{visio/visio/force0}
+	\label{fig:force05}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=0.3\linewidth]{visio/visio/force1}
+	\caption{}
+	\label{fig:force1}
+\end{figure}
+
+\section{discuciones}
+
+
+
+
+
+\section{Trabajo futuro}
+
+El mayor inconveniente de este acercamiento al problema de sujeción es que se necesitaría que fuese supervisado, lo cual va en contra de los objetivos deseados, como continuación se desea tener una base de datos que contenga los valores para una gran variedad de objetos.
+
+
+Con respecto al hecho de conseguir el centroide con la cámara, esto no garantiza que corresponda con el centro de masas del objeto, la propuesta para este problema es calcularlo con el sensor de fuerza disponible, el cual es capaz de conseguir el \textit{Wrench}, teniendo 2 sensores de este tipo, en caso de que el centro de masas este en el centroide del objeto, ambos censores deberían tener mediciones iguales, pero en caso de que no sea este el caso los sensores deberían mostrar discrepancias en las mediciones y en base a estas debería poder calcularse el valor real del cetro de masas, lo que ayudaría conseguir información adicional acerca del objeto.
+Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hecho de tener una realimentación por parte de un sensor que mida el deslizamiento de la pieza, en este caso, es imposible de hacerse con la cámara, y los sensores de \textit{Wrench}, no son capaces de medirlo. En algunos trabajos ha sido reportado que el deslizamiento puede ser medido como un tipo de ruido por vibraciones debido a la rugosidad de las superficies rozándose, por lo que se podría tener también un indicador de la rugosidad entre el \textit{Gripper} y el objeto, por desgracia los sensores que se tienen, no son capaces de distinguir este ruido, esto sumado a que, en algunas áreas de la trayectoria, el mismo robot presenta una gran cantidad de vibraciones, para conseguir la medición de deslizamiento se pretende usar una matriz de resistencias que se tendrán en los dedos del \textit{Gripper}, esta matriz mostrara variaciones de voltaje dependiendo de la fuerza con la que se sujete la pieza, siempre y cuando exista el contacto entre ambos, con esto se puede crear una imagen de presión, de la cual se puede conseguir un centroide, este representaría el punto de contacto principal, en caso que existir un área de contacto. 

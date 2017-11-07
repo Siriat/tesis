@@ -1,0 +1,197 @@
+\chapter{Contribución de la Tesis}
+
+    \section{Resumen del capítulo}
+    
+    
+    
+    
+    
+    
+    \section{visión}
+    
+    \subsection{trabajo relacionado}
+    
+    
+    
+    
+    
+    
+    
+    Para las aplicaciones de visión se necesita tener en cuenta el sistema en el que se estará usando y las condiciones, por esas razones se necesita tener en cuenta las concideraciones que se hicieron en \cref{intro},     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    a continuacion se presentan los algoritmos que se usaron en el sistema de vision, estos algoritmos son a nivel conceptual, los codigos de los programas pueden observarse en \cref{visioncode}.
+    El primer algoritmo es para la deteccion de objetos en el area de trabajo.
+    
+    
+    \begin{figure}[h]
+    	\centering
+    	\begin{algorithmic}
+    		\REQUIRE $ D $ /* xyz image of $n \times m \times 3$
+    		\REQUIRE $ workspace $ /* 3D space workspace of the robot
+    		\REQUIRE $ R_{xyz} $ /* Rotation matrix $3\times 3$ 
+    		\ENSURE $XYZ$ /* matrix with the pixels available inside the workspace
+    		\FORALL{ i $\leftarrow$ elements in $D (n \times m)$}  
+    		\STATE $xyz \leftarrow  D[i,:]$ /* the \{x,y,z\} values of the actual element
+    		
+    		\STATE $xyz \leftarrow xyz \times R_{xyz}$
+    		\IF{$xyz \in workspace $}
+    		\STATE $XYZ[i] \leftarrow xyz$
+    		%		\STATE $xyz \leftarrow NAN$
+    		\ENDIF
+    		\ENDFOR
+    	\end{algorithmic}
+    	\caption{Algorithm 1:Pseudo-code to find the objects in the robot's workspace}
+    	\label{alg1}
+    \end{figure} 
+    lo que puede observarse en el algoritmo es un simple ciclo \textbf{for}, para hacer la rotacion de la imagen del marco coordenado de la camara al marco del robot, una vez estan en la misma referencia, se procede a guardar todos los objetos que se encuentren en el espacio de trabajo.
+    
+    el siguiente algoritmo es para encontrar el centroide de objetos segmentados,
+    %After that we will get the centroid of the object. For this is necessary the assumption \ref{Assumtion:2}, with this we can assume the incomplete view of the object could be the same on the occult part, but we would take just the points we can see to make the calculus of the centroid. In order to make it the most accurate possible, we won't take all of the points of the point cloud, but just the most reliable. To do this, a Sobel mask will be applied to get the points which have a certain margin of difference between each other. This will reduce the bias from the centroid. This is generally explained in algorithm 2 in \cref{alg2}.
+    
+    %Finally the decision of the grasping position will take part. Some considerations were made, even if a proper grasping point algorithm was not implemented, even though there are several things to be taken into account, such as having a wide area of normal vectors, having a place with friction good enough to reduce the required force.  In our case, we will choose a place near the centroid to reduce the momentum of the object being grasped.
+    
+    \begin{figure}[h]
+    	\begin{algorithmic}[h]
+    		\REQUIRE $XYZ$ /* matrix with the pixels of the object
+    		\ENSURE	$X_d$	/* The desired position
+    		\STATE $XYZ2 \leftarrow sobel(XYZ$);\\
+    		$C \leftarrow mean(XYZ(XYZ2\neq0)$);\\
+    		\STATE $ex \leftarrow XYZ-C[1]$\\
+    		$dz\leftarrow max(y(ex<5))$\\					
+    		$X_d \leftarrow \{C[1], C[2], dz\}$
+    	\end{algorithmic}
+    	\caption{Algorithm 2: Pseudo-code to calculate the desired position $(X_d)$}
+    	\label{alg2}
+    \end{figure}
+    
+    Este algoritmo comienza con la plicacion de \textbf{Sobel} a la imagen que contiene el objeto, este \textbf{Sobel} tiene un threshold muy bajo, lo que hace que la imagen resultante tenga muchos bordes, lo que se busca con esto es conseguir un indicador del gradiente de la imagen, en otras palabras, tener estas lineas que nos indiquen cuando cambia los valores de la imagen cambian, de estos valores se consigue la media, si se intentara conseguir la media del objeto usando todos los puntos, el resultado podria estar sesgado hacia donde hay mayor concentracion de puntos, este valor \textbf{C} no es muy afectado por ese sesgo, lo cual es muy util si se tiene una vista isometrica del objeto.
+    
+    dado el diseño mecánico del robot se busca la apertura del gripper la cual es la distancia en el eje $X$ del objeto.
+    para lo cual se resta a la imagen del objeto segmentado el valor del centroide, despues se toman los valores que sean mas cercanos a cero (que en este caso sera los cercanos al centroide), y  se consiguen los valores maximos en esos lugares, para los valores de la altura,  esto nos da la altura maxmia del area donde se posicionara el gripper, este valor, en junto con los valores del centroide conforman la posicion deseada a la que llegara el gripper.
+    
+    a continuacion se presentan algunos de los resultados de el algoritmo, 
+    %figuras de los resultados
+    % buenos	malos 	regulares
+	% fig		fig		fig		
+	%caracteristicas	    
+    
+    
+    
+    algunos cambios fueron hechos para implementacion en matlab de dichos algoritmos, uno de los cambios mas importantes fue la rotacion de la imagen del marco de la camara al marco del robot, lo cual se hiso 
+    
+    
+    %Some of the limitations of this approach are that it cannot function with reflective objects (or any other that can't be visible to the kinnect kind sensor), and that the working area is flat and its dimensions are previously known, which might present difficulties when working on a real unknown and unstructured environment.
+    
+    
+    \section{control del robbot}
+    El control del robot fue hecho con FREN \cref{labellist}, en este capitulo se mostrara el poseso para conseguirlo, los valores que se usaron.
+    
+    
+    \section{control del gripper o como hacer un fuzzy  a simple decision aproach a la decisión de la fuerza }
+    
+    La decision de la fuerza que se usara esta a cargo de un control FREN sin realimentacion de estado, en si es un control FREN offline, la estructura que se desea usar puede ser observada en la imagen \cref{fig:mfren2}
+    
+    \begin{figure}[h]
+    	\centering
+    	\includegraphics[width=0.7\linewidth]{visio/mfren2}
+    	\caption{}
+    	\label{fig:mfren2}
+    \end{figure}
+    
+    
+    
+    
+    \begin{table}[h]
+    	\caption{otra cosa} \label{tab:betas1} 
+    	\centering
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		$FRA=0.2	 &W_L&W_{Ml}&W_M&W_{Mh}&W_H$\\
+    		\hline  
+    		\hline  
+    		$FRI_L&	 5.0000 &   6.2996 &   7.2112 & 7.9370 &  8.5499\\$
+    		
+    		$FRI_{Ml}&	6.2996  &  7.9370 &   9.0856 &  10.0000  & 10.7722\\$
+    		
+    		$FRI_M&	7.2112 &   9.0856 &  10.4004 &  11.4471 &  12.3311\\$
+    		
+    		$FRI_{Mh}&	7.9370 &  10.0000 &  11.4471 &  12.5992 &  13.5721\\$
+    		
+    		$FRI_H&	8.5499  & 10.7722 &  12.3311 &  13.5721 &  14.6201$\\
+    		\hline 
+    	\end{tabular} \\
+    	\bigskip
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		FRA=0.4	 &W_L&W_Ml&W_M&W_Mh&W_H\\
+    		\hline  
+    		\hline  
+    		FRI_L&6.2996&    7.9370  &  9.0856   &10.0000 &  10.7722\\
+    		FRI_{Ml}&7.9370  & 10.0000 &  11.4471 &  12.5992 &  13.5721\\
+    		FRI_M&9.0856  & 11.4471  & 13.1037 &  14.4225  & 15.5362\\
+    		FRI_{Mh}&10.0000 &  12.5992  & 14.4225&   15.8740  & 17.0998\\
+    		FRI_H&10.7722 &  13.5721  & 15.5362&   17.0998  & 18.4202\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		FRA=0.6	 &W_L&W_Ml&W_M&W_Mh&W_H\\
+    		\hline  
+    		\hline  
+    		FRI_L&	7.2112 &   9.0856 &  10.4004 &  11.4471 &  12.3311\\
+    		FRI_{Ml}&	9.0856  & 11.4471 & 13.1037 &  14.4225  & 15.5362\\
+    		FRI_M&	10.4004  & 13.1037 &  15.0000 &  16.5096 &  17.7845\\
+    		FRI_{Mh}&	11.4471  & 14.4225 &  16.5096 &  18.1712 &  19.5743\\
+    		FRI_H&	12.3311  & 15.5362 &  17.7845 &  19.5743 &  21.0858\\
+    		\hline 
+    	\end{tabular} \bigskip
+    	\\
+    	
+    	
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		FRA=0.8	 &W_L&W_Ml&W_M&W_Mh&W_H\\
+    		\hline  
+    		\hline  
+    		FRI_L&7.9370  & 10.0000 &  11.4471  & 12.5992  & 13.5721\\
+    		FRI_{Ml}&10.0000 &  12.5992 &  14.4225 &  15.8740 &  17.0998\\
+    		FRI_M&11.4471 &  14.4225 &  16.5096 &  18.1712 &  19.5743\\
+    		FRI_{Mh}&12.5992 &  15.8740 &  18.1712 &  20.0000 &  21.5443\\
+    		FRI_H&13.5721 &  17.0998 &  19.5743 &  21.5443 &  23.2079\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    	\pagebreak
+    	\begin{tabular}{|c||c|c|c|c|c|}
+    		\hline
+    		FRA=1	 &W_L&W_Ml&W_M&W_Mh&W_H\\
+    		\hline  
+    		\hline  
+    		FRI_L&8.5499  & 10.7722 &  12.3311  & 13.5721 &  14.6201\\
+    		FRI_{Ml}&10.7722 &  13.5721 &  15.5362 &  17.0998 &  18.4202\\
+    		FRI_M&12.3311 & 15.5362  & 17.7845  & 19.5743  & 21.0858\\
+    		FRI_{Mh}&13.5721 &  17.0998 &  19.5743 &  21.5443 &  23.2079\\
+    		FRI_H&14.6201 &  18.4202 &  21.0858 &  23.2079 &  25.0000\\
+    		\hline 
+    	\end{tabular} 
+    	\bigskip
+    	\\
+    \end{table}
+
+

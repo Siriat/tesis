@@ -1,0 +1,150 @@
+\chapter{Cinemática del cuerpo rígido}
+El cuerpo rígido es una forma básica de ver a los objetos en el espacio, estos objetos son parametrizados con 6 dimensiones con respecto a un marco de referencia, 3 de posición y 3 de orientación, al conjunto de estos valores se le conoce como \textbf{Pose}, el objeto tiene su propio marco de referencia al cual todos los puntos del objeto se mantienen constantes, pero se pueden mover con respecto del marco del origen, si el marco del objeto es rotado o trasladado, en \cref{fig:cuerporigido} se ilustra la idea general.
+
+Análogamente se puede definir al \textbf{"Wrench"} como el conjunto de las fuerzas en y momentos que actúan sobre un cuerpo, pero se usa con otro propósito dentro de esta tesis.
+A continuación se explicara de manera básica la manera de realizar una rotación y una traslación.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{visio/visio3/cuerporigido}
+	\caption{}
+	\label{fig:cuerporigido}
+\end{figure}
+
+\section{Matriz de rotación}
+
+En álgebra lineal las matrices de rotación se usan para realizar una rotación en un espacio euclidiano.
+
+Las rotaciones básicas son las que se llevan acabo en un solo eje, las siguientes son las rotaciones básicas:
+
+$R_x(\theta)=\begin{bmatrix}
+1	& 0 &0  \\ 
+0	&  cos(\theta)& -sin(\theta) \\ 
+0	& sin(\theta) & cos(\theta) 
+\end{bmatrix}\\
+
+R_y(\theta)=\begin{bmatrix}
+	cos(\theta)	& 0 & sin(\theta)  \\ 
+	0	&  1 & 0 \\ 
+	-sin(\theta)	& 0 & cos(\theta) 
+\end{bmatrix}\\
+
+R_z(\theta)=\begin{bmatrix}
+	cos(\theta)	& -sin(\theta) &0  \\ 
+	sin(\theta)	&  cos(\theta)& 0 \\ 
+	0	&  & 1 
+\end{bmatrix}\\
+$
+Desde estas rotaciones se define la rotación general como $R_{xyz}(\psi,\theta,\phi)=R_x(\psi)R_y(\theta)R_z(\phi)$, esto se puede pensar como una serie de rotaciones
+\begin{equation}\label{rotation}
+{\small R_{xyz}(\theta)=\begin{bmatrix}
+cos(\psi)cos(\theta)cos(\phi)-sin(\psi)sin(\phi)	& -cos(\psi)cos(\theta)sin(\phi) -sin(\psi)cos(\phi) & cos(\psi)sin(\theta)   \\ 
+sin(\psi)cos(\theta)cos(\phi)+cos(\psi)sin(\phi) &  -sin(\psi)cos(\theta)sin(\phi) +cos(\psi)cos(\phi) &  sin(\psi)sin(\theta) \\ 
+sin(\theta)cos(\phi)	& sin(\theta)sin(\phi) & cos(\theta) 
+\end{bmatrix}\\}
+\end{equation}
+
+
+para realizar una rotación se realiza la siguiente operación.
+
+
+c'=Rc
+
+
+
+por ejemplo una rotación básica en el eje x
+
+$\begin{bmatrix}
+	x  \\ 
+	y' \\ 
+	z'
+\end{bmatrix} =\begin{bmatrix}
+1	& 0 &0  \\ 
+0	&  cos(\theta)& -sin(\theta) \\ 
+0	& sin(\theta) & cos(\theta) 
+\end{bmatrix} \begin{bmatrix}
+	x  \\ 
+	y \\ 
+	z
+\end{bmatrix} $, como se puede apreciar, no se afecta x al ser el eje de rotación.
+
+
+En la sección de visión se utilizo la matriz de rotación general \ref{rotation} parametrizada en ángulos de Euler.
+
+\section{traslación}
+
+Una traslación se usa en el algoritmo de visión para posicionar el origen de las coordenadas de la imagen junto al origen de las coordenadas del robot, para hacer esto se lleva a cavo una resta.
+esta operación se define como:  las nuevas coordenadas de la imagen son las coordenadas desde la cámara menos la distancia entre el origen de la cámara con respecto al origen del robot.
+$p_{nuevo}=p_c-d_{r}^{c}$
+
+por ejemplo:
+
+$\begin{bmatrix}
+x'  \\ 
+y' \\ 
+z'
+\end{bmatrix} = 
+\begin{bmatrix}
+x  \\ 
+y \\ 
+z
+\end{bmatrix}-\begin{bmatrix}
+d_x	 \\ 
+d_y	 \\ 
+d_z	 
+\end{bmatrix} $
+
+
+
+
+
+\chapter{Bases de Redes Neuro-Difusas}\label{basesneurodifusas}
+En la inteligencia artificial existen varios tipos de control, estos son biomimeticos, ya que están basados en la naturaleza, en este capitulo se hablara acerca de la lógica difusa y las redes neuronales para facilitar el entendimiento de las ANFIS(Sistemas Adaptativos de Inferencia Neuro-Difusa).
+
+\section{Lógica Difusa}
+
+La lógica difusa es una rama de la inteligencia artificial que usa una lógica booleana modificada para que puedan usarse estados medios entre las variables haciendo mas suave su respuesta, normalmente se usa de forma orientada a la aplicación, ya que se usa conocimiento especifico de la planta para el diseño del control, aunque en muchos casos se puede simplificar a minimizar el error. 
+Básicamente el control difuso convierte datos numéricos a valores difusos, estos son evaluados por un mecanismo de inferencia quien decide la respuesta del controlador basado en las reglas difusas, por ultimo se traducen los resultados a valores apropiados para la planta, la estructura básica de un control difuso se muestra en \cref{fig:logicadifusa}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{visio/visio3/logicadifusa}
+	\caption{}
+	\label{fig:logicadifusa}
+\end{figure}
+
+El control difuso se basa en las reglas difusas, estas son un conjunto de reglas Si... Entonces... , y están basadas en la experiencia humana acerca de la planta, comúnmente en forma de tabla con entradas y salidas, se pueden tener múltiples entradas, pero se sugiere tener solo una salida, y para conseguir mas salidas se usan varios controles de una entrada. Un ejemplo de estas reglas es, en el caso que se tenga una relación directa y proporcional de la entrada de control con la salida del sistema: "Si el \textbf{error} es positivo y el \textbf{error anterior} es positivo, entonces la \textbf{respuesta} es/sera negativa", como puede verse de este ejemplo, las reglas en si son básicamente lo que una persona entiende del comportamiento del sistema, y deben contemplar todas las situaciones posibles, en caso de no hacerlo, puede llegar a caerse en situaciones desconocidas en las que el control no sabrá como reaccionar y puede llevar a reacciones no deseadas por parte del control. Algo mas que debe observarse es la relación que tienen las variables que se asemeja a la lógica booleana, pero la lógica difusa se distingue de la booleana por el tipo de variables que usa, mientras la lógica booleana usa valores discretos que solo pueden ser cierto o falso, la lógica difusa intenta aprovechar los números que estén en medio, agregando un grado de certeza a cada variable, por lo que una variable difusa puede tomar valores de 0 hasta 1, esto permite tener mas posibles valores en las variables sin necesidad de aumentar su numero.
+La conversión de la entrada a datos difusos es comúnmente llamada  fusificación, las entradas son generalmente valores numéricos, la manera de realizar la fusificación es definir cuales son las variables de entrada y los valores lingüísticos que cada una se puede tomar, en el ejemplo se puede identificar que la entrada esta siendo comparada contra algo en la frase "Si el error es positivo", el \textbf{error} es la variable, y \textbf{positivo} es un valor lingüístico, dependiendo de los valores que puedan tomar las variables de entrada serán los valores lingüísticos que se tengan, en este caso la variable podría tomar los valores de \textbf{positivo} y \textbf{negativo}, también se puede agregar \textbf{cero}, pero lo mas común es que los valores numéricos de la entrada sean convertidos a valores lingüísticos que describan su intensidad, por ejemplo si se quisiera describir mejor a \textbf{error}, lo mas común es usar: \textbf{positivo grande},  \textbf{positivo pequeño}, \textbf{cero}, \textbf{negativo pequeño} y \textbf{negativo grande}. 
+Ahora que ya están definidos se elige una función que describa que tan cierta es cada situación, estas son llamadas funciones de membresía y valúan cada entrada con cada una de las funciones, que representan los valores lingüísticos dependiendo de las reglas difusas, para esto se usan funciones triangulares que son simples y rápidas o funciones gausianas que tienen un cambio suave, cuando las entradas son valuadas con estas funciones, se conseguirán valores de 0 a 1, y por lo general se activaran mas de un valor lingüístico, en caso de que solo se active 1 valor lingüístico se recomienda que su valor sea siempre de 1, en caso de caer este valor, el control perderá fuerza, por lo que se sugiere tener el valor normalizado, por ejemplo si decimos que el error es \textbf{positivo grande}, dependiendo de la magnitud del error este podría estar solo en la región de \textbf{positivo grande} al 100\%, pero en caso de ser mas pequeño, podría entrar en una parte donde \textbf{positivo grande} se activa al 60\% y \textbf{positivo pequeño} se activa al 40\%.
+
+El mecanismo de inferencia hace uso de las reglas difusas evaluándolas todas con las funciones de membresía, con esto se observa que tan cierta es cada una de las reglas y que tan cierto debería ser cada respuesta, dependiendo del método de des-fusificación que se use se conseguirá la respuesta.
+
+Ahora cambiando un poco la regla de ejemplo: "Si el \textbf{error} es positivo grande y el \textbf{error anterior} es positivo pequeño, entonces la \textbf{respuesta} es/sera negativa grande", como ya se había dicho la lógica difusa es una modificación de la lógica de bool, por lo tanto los operadores lógicos "$y$", "$o$", son usados, pero de forma mas sencilla para una persona. Estos operadores lógicos pueden ser, sumas y multiplicaciones, o el máximo y el mínimo, siguiendo con el ejemplo, reemplazando los valores, imaginemos que las funciones de membresía, solo para esta regla son $\mu_{error}=0.6$ y $\mu_{errorant}=0.4$, cuando se aplica el operador lógico \textbf{y}, se tendrá 0.4 en caso de usar el mínimo o 0.24 en caso de un producto, este valor es el grado de "certeza" que se tiene de esta regla, y la respuesta de la regla "entonces la \textbf{respuesta} es/sera negativa grande", también es afectada por este valor, la respuesta del mecanismo de inferencia es el conjunto de las  respuestas de todas las reglas.
+Finalmente para poder usar esta respuesta se le debe dar un valor numérico, esto es llamado des-fusificación y se pueden usar métodos como la media del centro de cada respuesta, o en el caso de los sistemas Takagi-Sugeno, se puede calcular una respuesta numérica para cada regla y sumarlas para conseguir la respuesta final.
+
+
+\section{Redes Neuronales}
+Las redes neuronales son una rama de la inteligencia artificial que imita el comportamiento de las neuronas, una de las características mas importantes es que no se necesita tener conocimiento especifico de la planta, ya que la red aprenderá en base al entrenamiento que se le de. La forma básica de una neurona es la mostrada en \cref{fig:neurona}, como puede verse tiene 3 partes, principales, ya que las entradas son solo asignaciones, en la sección de pesos lo que se hace es multiplicar cada una de las entradas por su respectivo peso, después se suman todos los resultados y al final se pasa a una función de activación que decidirá el resultado final. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\linewidth]{visio/visio3/neurona}
+	\caption{}
+	\label{fig:neurona}
+\end{figure}
+La función de salida se puede condensar como y=G(z), donde $ z=\sum(in_1 W_1 + in_2 W_2 + in_3 W_3)$, note que esta operación puede ser simplificada como el producto punto del vector de entradas y el vector de pesos, y en cuanto a la función G(), esta es elegida por el usuario, la mas comun es una linea o una sigmoide, pero pueden usarse otras como una gausiana. Los valores de los pesos son inicializados en ceros y van cambiando conforme se tenga entrenamiento.
+
+
+
+\chapter{Diseño}
+Se presenta el diseño de uno de los dedos del \textit{gripper}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{visio/visio3/finger4}
+	\caption{}
+	\label{fig:finger4}
+\end{figure}
+
+%014772670930 3570 guadalupe martinez
+\chapter{Publicaciones}
+\cite{tuyinincluded2017}

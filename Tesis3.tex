@@ -1,0 +1,77 @@
+\documentclass[12pt,twoside]{book} 
+\usepackage{fancyhdr,Archivos/GRyMAThesis}
+\usepackage{subeqnarray}
+\usepackage{epsfig}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{color}
+\usepackage{ifpdf}
+\usepackage{hyperref}
+% \usepackage{epstopdf} %Used conversion of e EPS fig in PDF-TEXify
+\usepackage[spanish]{babel}
+\usepackage[utf8,latin1]{inputenc}
+\usepackage{anyfontsize}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{Archivos/mcode}
+\usepackage{upquote}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{amsfonts}
+\inputencoding{latin1}
+\pagestyle{fancy}
+%\usepackage{algorithm2e}
+%\begin{algorithm}[H]
+%	\kwdata
+%	\kwresult
+%	algo pasa
+%\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Editar con datos requeridos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\titlenamesp{Unknown Object Grasping with Adaptive Controller based on Human-Skill and Sensing System}
+\def\titlenameen{Thesis title}
+\def\authorname{Juli\'an Hern\'andez Tuyin}
+\def\degree{Maestro en Ciencias }%o Doctorado en Ciencias
+\def\degreeu{Chidentree Treesatayapun}
+\def\degreed{Luz abril torres}%Si existe un segundo director, descomentar esta l�nea y la linea 56 del archivo TesisTitle.tex
+\def\degreedate{Mes, A\~no}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cuerpo del documento %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\renewcommand{\tablename}{Tabla}
+    \frontmatter         %%----------------------------  %\pagenumbering{roman}
+    \inputencoding{latin1}
+    \include{Archivos/TesisTitle} %archivo TesisTitle.tex en el directorio raiz. No modificar.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Primeras p�ginas de la tesis, apartados sugeridos %%%%%%%%
+    \include{Archivos/Dedicatoria}
+    \inputencoding{utf8}
+    \include{Archivos/Agradecimientos}
+    \include{Archivos/Resumen}
+    \tableofcontents
+   % \pagestyle{fancy}
+    \listoffigures     \addcontentsline{toc}{chapter}{Lista de Figuras}
+    \listoftables     \addcontentsline{toc}{chapter}{Lista de Tablas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Nomenclatura  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Abreviaturas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \mainmatter         %%---------------------------- %\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Desarrollo de la tesis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Introduccion}
+    \include{Archivos/Fundamentos}
+    \include{Archivos/Contribucion}
+    \include{Archivos/Resultados}
+    \include{Archivos/Conclusiones}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \inputencoding{latin1}
+    \appendix \part*{Apendices}  \addcontentsline{toc}{part}{Ap�ndices}
+    \inputencoding{utf8}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ap�ndices %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Apendices}
+    \include{Archivos/Codigo_programacion} % Si no se requiere %
+    \backmatter          %%----------------------------
+    \inputencoding{latin1}
+    \bibliographystyle{Archivos/apalike} \addcontentsline{toc}{part}{Bibliograf�a}
+    \nocite{*}
+    \bibliography{Archivos/Bibliografia} % Bibliografia con ejemplos, para modificar doble click en \bibliography
+\end{document}

@@ -1,0 +1,170 @@
+\documentclass[12pt,twoside]{book} 
+\usepackage{fancyhdr,Archivos/GRyMAThesis}
+\usepackage{subeqnarray}
+\usepackage{epsfig}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{color}
+\usepackage{ifpdf}
+%\usepackage{hyperref}
+\usepackage[breaklinks,colorlinks,citecolor=blue]{hyperref}%backref
+\usepackage{epstopdf} %Used conversion of e EPS fig in PDF-TEXify
+\usepackage[spanish]{babel}
+\usepackage[utf8,latin1]{inputenc}
+\usepackage{anyfontsize}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{Archivos/mcode}
+\usepackage{upquote}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{amsfonts}
+\inputencoding{latin1}
+\pagestyle{fancy}
+%\usepackage{algorithm2e}
+%\begin{algorithm}[H]
+%	\kwdata
+%	\kwresult
+%	algo pasa
+%\end{algorithm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Editar con datos requeridos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{algorithmic}
+\usepackage{graphicx}  % Written by David Carlisle and Sebastian Rahtz
+\usepackage{subfigure} % Written by Steven Douglas Cochran    
+\usepackage{psfrag}    % Written by Craig Barratt, Michael C. Grant,
+\usepackage{url}      %WrittenbyDonaldArseneau                       
+\usepackage{stfloats}  % Written by Sigitas Tolusis
+\usepackage{color} 
+\usepackage{cite} 
+%\usepackage{amsthm}
+\usepackage[all]{hypcap}
+%\renewcommand*{\backref}[1]{[#1]}
+%\usepackage{enumitem}
+\usepackage{cleveref}
+%\usepackage{biblatex}
+
+%\newlist{observations}{enumerate}{10}
+%\setlist[observations]{label*=\arabic*}
+
+%\crefname{observationsi}{observation}{obvservations}
+%\Crefname{observationsi}{Observation}{Obvservations}
+
+\newcounter{prop}[chapter]
+\renewcommand*{\theprop}{\thechapter.\arabic{prop}}
+
+\newenvironment{prop}[1][]{%
+	%	\refstepcounter{prop}%
+	\paragraph*{\textbf{#1}}    %~\theprop}%
+	%	\renewcommand*{\theenumi}{Assumption (\arabic{enumi})}%
+	\renewcommand*{\theenumi}{ (\alph{enumi})}%
+	\renewcommand*{\labelenumi}{\alph{enumi})}%
+	\enumerate
+}{%
+	\endenumerate
+}
+\crefname{item}{\MakeLowercase\itemname}{\MakeLowercase\itemname s}
+\Crefname{item}{\itemgname}{\itemname s}
+
+
+
+
+
+
+\renewcommand{\arraystretch}{1.5}%para el espacio de las tablas
+
+\newtheorem{thm}{Theorem}[section]
+%\newtheorem{lemma}{Lemma}[section]
+\renewcommand{\pmatrix}[1]{\left[\begin{matrix} #1 \end{matrix}\right]}
+\newcommand{\bEq}{\begin{equation}}
+\newcommand{\eEq}{\end{equation}}
+\newcommand{\bEqA}{\begin{eqnarray} }
+\newcommand{\eEqA}{\end{eqnarray} }
+%\newcommand{\f}{\mathfrak{f}}%{\tau}  
+\newcommand{\etai}{\frac{1}{\eta}}
+\newcommand{\et}{\varepsilon}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\Curl}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Dx}[2]{\frac{\ud{#1}}{\ud{#2}}}
+\newcommand{\Cx}[2]{\frac{\partial #1}{\partial #2}}
+%\newcommand{\sign}[1]{\mbox{sign}\left\{#1\right\}}
+\newcommand{\ov}[1]{\mbox{\boldmath $#1$}} % for matrix symbol
+%\newcommand{\R}{\mathbb{R}}
+\newcommand{\chidentree}[1]{\textcolor{blue}{[\large\textit{#1:CDT}]}}
+\newcommand{\comment}[1]{}
+%\newcommand{\MiFren}{{\textsc{MiFren}}}
+\newcommand{\MiFren}{MIFREN}
+\newcommand{\loadFig}[3]{
+	\begin{center}
+		\includegraphics[width=#2,height=#3]{#1}
+	\end{center}
+}
+
+% *** ALIGNMENT PACKAGES ***
+\usepackage{array}
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+
+
+
+
+
+\def\titlenamesp{Sujeci\'on de Objetos Desconocidos con Controlador Adaptativo Basado en Conocimiento Humano}
+\def\titlenameen{Sujeci\'on de Objetos Desconocidos con Controlador Adaptativo Basado en Conocimiento Humano}
+\def\authorname{Juli\'an Hern\'andez Tuyin}
+\def\degree{Maestro en Ciencias }%o Doctorado en Ciencias
+\def\degreeu{Chidentree Treesatayapun}
+\def\degreed{Luz Abril Torres Mendez}%Si existe un segundo director, descomentar esta l�nea y la linea 56 del archivo TesisTitle.tex
+\def\degreedate{Mes, A\~no}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Cuerpo del documento %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\renewcommand{\tablename}{Tabla}
+    \frontmatter         %%----------------------------  %\pagenumbering{roman}
+    \inputencoding{latin1}
+    \include{Archivos/TesisTitle} %archivo TesisTitle.tex en el directorio raiz. No modificar.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Primeras p�ginas de la tesis, apartados sugeridos %%%%%%%%
+    \include{Archivos/Dedicatoria}
+    \inputencoding{utf8}
+    \include{Archivos/Agradecimientos}
+    \include{Archivos/Resumen}
+    \tableofcontents
+   % \pagestyle{fancy}
+    \listoffigures     \addcontentsline{toc}{chapter}{Lista de Figuras}
+    \listoftables     \addcontentsline{toc}{chapter}{Lista de Tablas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Nomenclatura  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Abreviaturas}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \mainmatter         %%---------------------------- %\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Desarrollo de la tesis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Introduccion}
+   % \include{Archivos/Fundamentos}
+    \include{Archivos/Vision}
+    \include{Archivos/controldelrobot}
+    \include{Archivos/frend}
+    \include{Archivos/Resultados}
+    \include{Archivos/Conclusiones}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \inputencoding{latin1}
+    \appendix \part*{Ap\'endices}  \addcontentsline{toc}{part}{Ap\'endices}
+    \inputencoding{utf8}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Ap�ndices %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \include{Archivos/Apendices}
+    \include{Archivos/Codigo_programacion} % Si no se requiere %
+    \backmatter          %%----------------------------
+    \inputencoding{latin1}
+    \bibliographystyle{Archivos/apalike} \addcontentsline{toc}{part}{Bibliograf\'ia}
+    %\nocite{*}
+    \bibliography{Archivos/Bibliografia} % Bibliografia con ejemplos, para modificar doble click en \bibliography
+\end{document}

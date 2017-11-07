@@ -1,0 +1,131 @@
+
+    \chapter{Control del robot}
+    \section{Introducción}
+    En control existen distintos tipos de controladores, entre los cuales se tienen controles a base de modelo y libre de modelo, de control clásico o control moderno, en el dominio del tiempo o discretos y una de las que se usaran es el control por inteligencia artificial, la inteligencia artificial se puede clasificar por el nivel del control, ya sea de bajo nivel (operacional) como lo es la lógica difusa y redes neuronales o de alto nivel, como lo es la programación inductiva y el uso de agentes inteligentes.
+    
+    En nuestro caso estaremos usando un control de bajo nivel, Neuro-Difuso, que se clasifica como \textit{ANFIS} del tipo \textbf{Takagi-Sugeno}.
+        
+    El control del robot fue hecho con FREN \ref{FREN}, en este capitulo se mostrara el poseso para conseguirlo, los valores que se usaron.
+    
+    El control FREN tiene como características la simplicidad de y lo intuitivo que llega a ser gracias al hecho que esta basado en lógica difusa, otra característica importante es su velocidad, ya que al mantenerse simple, el aprendizaje no necesita calcular muchos pesos.
+
+
+
+
+    \section{FREN}	
+    El control FREN puede ser descrito en \cref{labellist}, en esta imagen puede verse las etapas que tiene la evaluación del control,  las cuales pueden dividirse como entrada, evaluación difusa, consecuencia lineal y salida.
+    
+    
+    A continuación se presentara como ejemplo la puesta en marcha del control FREN en el robot.
+    El robot usa como señal de control un \textit{PWM}(Hz), lo cual sera la salida del control, esta salida dará como resultado un voltaje que entrara a los motores para mover al robot a lo largo de un tornillo sin fin, y este movimiento sera medido por unos potenciómetros lineales.
+    
+    
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/controldiag}
+	\caption{}
+	\label{fig:controldiag}
+\end{figure}
+
+
+    
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/fren}
+	\caption{}
+	\label{fig:fren}
+\end{figure}
+    
+    
+    Primero definamos al error como \begin{equation}
+    	e(k)=X_d - X(k)
+    \end{equation}, donde $e(k)$ es el error actual, $X_d$ es la posición deseada conseguida del algoritmo de visión, y $X(k)$ es la posición actual que se consigue por la realimentación de los potenciómetros, este error sera la entrada para el controlador FREN.
+    Lo siguiente sera definir las reglas lingüísticas \textbf{"\ SI... ENTONCES ..."}, que se encargaran de convertir la entrada a valores difusos, estas reglas serán definidas con el conocimiento previo que se tenga de la planta, estas reglas son una relación burda entre la entrada y la salida, estas reglas se presentan en \ref{labellist}, estas reglas son representadas como funciones de membresía, que evalúan que tan cierto es cada una de estas reglas, en este caso estamos usando la función de \textbf{gauss} para hacer la evaluación, estas funciones pueden verse en \ref{labellist}, como puede verse la definición de los valores $PL_e,PS_e,Z_e,NS_e,NL_e $ se hace para poder definir las funciones de pertenencia, donde estos valores representan el punto medio de las funciones, y la distancia entre estas es definida por el usuario.
+    
+    
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{visio/membership}
+	\caption{}
+	\label{fig:membership}
+\end{figure}
+    
+    
+    Cada una de estas funciones puede ser agrupada en el vector \cref{eqmu}, este vector representa a todos los estados de $\mu$, como paso adicional se necesita normalizar el vector $\mu$, esto ayuda a tener la salida mas suave, en caso de que no se normalice, existirán casos en los que la sumatoria de $\mu$ sea mayor a 1 y otros en los que sea menor a 1, esto se debe a que se eligió la función \textbf{gauss}, un ejemplo de esto puede verse en \cref{fig:membership}.
+    \begin{equation}
+    \label{eqmu}
+    \mu=\begin{bmatrix}
+    \mu_{PLe}(e(k)) \\ 
+    \mu_{PSe}(e(k))\\ 
+    \mu_{Ze}(e(k))\\ 
+    \mu_{NSe}(e(k))\\ 
+    \mu_{NLe}(e(k))
+    \end{bmatrix} 
+    \end{equation}
+    Continuando con la etapa de la consecuencia lineal, tenemos que la esta se define como: las funciones de pertenencia ponderadas por un peso característico de cada una, esto se resume en \begin{equation} 
+    lc_i= \mu_i \beta_i
+    \end{equation}, donde $\mu_i$ es el valor $i$ del vector $\mu$, y $\beta_i$ es el valor correspondiente del peso de cada función de pertenencia, este peso es definido por el usuario y se puede representar como \begin{equation}
+    \beta=\begin{bmatrix}
+    \beta_{PLe} \\ 
+    \beta_{PSe}\\ 
+    \beta_{Ze}\\ 
+    \beta_{NSe}\\ 
+    \beta_{NLe}
+    \end{bmatrix} , 
+    \end{equation} estos valores corresponden con como se defina $PL_u,PS_u,Z_u,NS_u,NL_u $. %en nuestro caso los valores de $\beta$ elegidos fueron :!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/betas}
+	\caption{}
+	\label{fig:betas}
+\end{figure}
+    
+    
+    
+    Por ultimo tenemos la etapa de salida, en esta, la salida se define como la sumatoria de los valores que fueron resultado de la consecuencia lineal que se define como \begin{equation}
+    \label{u}
+    U(k)= \sum lc_{i},
+    \end{equation} esto puede cambiarse por \begin{equation}
+    U(k)=\sum_{i=1}^{r} \mu_i \beta_i,
+    \end{equation} que a su vez  puede interpretarse como
+    \begin{equation}
+    \label{u}
+    U(k)=\mu^T \cdot \beta ,
+    \end{equation}\\
+    de esta manera se evalúa la salida de control FREN.
+    
+    Pero los valores iniciales podrían no ser los adecuados, por lo cual se tiene una fase de aprendizaje, esto sirve para adaptar los pesos $\beta$ a los valores que se necesiten, la función de aprendizaje usada es: \begin{equation}
+    \beta(k+1)_i=\beta(k)_i+\eta Y_p \mu_i(k) e_i(k),
+    \end{equation} donde $\eta$ es la constante de aprendizaje, $Y_p$ es la relación entre la estrada de control y la salida del sistema, ($Y_p= \dfrac{\partial X}{\partial U}$).
+    
+    
+    
+   \section{Resultados}
+   
+    
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/he}
+	\caption{}
+	\label{fig:he}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/heu}
+	\caption{}
+	\label{fig:heu}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{visio/hu}
+	\caption{}
+	\label{fig:hu}
+\end{figure}
+    
+    
+    \section{Discusiones}
+    
+    Como puede observarse en \ref{labellist}, el aprendizaje de la red es rápido, pero se tienen algunos problemas que aun faltan por resolverse, uno de los problemas es que el entrenamiento no esta acotado, esto significa que los valores de $\beta$ siguen creciendo hasta que comienzan a existir problemas y es entonces cuando comienza a disminuir esos valores, otro problema es el desconocimiento del factor $Y_p$, esto es porque no es seguro que este valor se mantenga constante, este problema fue recientemente abordado en \cref{labellist}, es importante usar el valor normalizado de $\mu$, ya que de lo contrario los valores obtenidos fluctúan.
+    
