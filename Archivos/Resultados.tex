@@ -1,227 +1,84 @@
 \chapter{Resultados}
-%    \section{Resumen del capítulo}
+
+\section{Entorno Experimental}
 
 
 
-%The results to the moment are a rough decision on the vision algorithm, and the learning scheme, tests of the FREN control and the PID control whit the 3 axis robot and with the \textit{Gripper}, and the vision algorithm implementation, as there can be seen in Fifure \ref{fig:respuesta} (a), the results obtained can be gotten from an tuned approach, but they can still be gotten without this tuning, on the other hand the results from the \textit{Gripper} as seen in the figure \ref{fig:respuesta} (b) are not as expected, due to the delay between the command is send and the \textit{Gripper} executes it, as we are working in a with the speed, it would be better to adjust the parameters of the FREN, one of the main problems is the speed in which the force growths.\\
+\subsection{robot}
+La plataforma que estamos usando es un robot cartesiano de 3 DOF visto en la Fig. \ref{fig:dsc9825}, se utiliza un generador de señal para el voltaje de entrada a los motores de corriente continua, estamos utilizando MATLAB como la interfaz entre el sistema de visión, el control y el generador de funciones.
 
-%Los resultados presentados son de la implementacion del sistema, 
-
-
-
-
-%los experimentos consisten en:
-
-%	1: colocar el objeto en un punto aleatorio dentro del espacio de trabajo del robot.
-
-
-
-
-
-
-
-
-
-
-
-
-\section{\textit{Gripper}}
-Se implemento la comunicación con el \textit{Gripper}, este \textit{Gripper} tiene una forma estandardiza de comunicarse, pero no tiene un soporte tal cual para MATLAB, por lo que fue necesario hacer una función que hiciera la comunicación, para esto se reviso el manual de programación \cite{wsgmanual}, en este se explica la forma del paquete de datos que se espera tener como entrada y salida del \textit{Gripper}.
-
-el programa se encuentra en 
-
-%\section{esfuerzo desperdiciado}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%The experiments performed consisted on a simple set up where the task is to find the object, reach it and grasp it with a predefined force.
-Los experimentos realizados consistieron en un montaje simple en el que la tarea es encontrar el objeto, alcanzarlo y sujetarlo con una fuerza predefinida.
-
-%The camera is at a fixed position and its position with respect to the end effector is known.
-%The robot has only one axis active at a time. The X axis will move first, then Y axis and finally Z axis.
-%The object is placed in a random place reachable for the \textit{Gripper}, which is also visible for the camera.
-
-%The experiments performed consisted on a simple set up, where the task is to find the object (on a random position), reach it and grasp it with a predefined force.
-%the setting of the experiment is as follows:\\
-\begin{itemize}
-
-% \ Item La cámara está en una posición fija y su posición con respecto al efector final es conocida.
-\item El robot sólo tiene un eje activo a la vez, el eje X se moverá primero, luego el eje Y y finalmente el eje Z.
-% \ Item Debido a que sólo se utiliza la imagen de rango, la falta de luz no es un problema, pero tener una luz intensa es.
-\item El objeto se coloca en un lugar aleatorio accesible para la pinza, que también es visible para la cámara.
-% \ Item inicializamos la cámara y tomamos una imagen de rango.
-% \ Item La rotación y la traducción se realiza con el algoritmo presentado en la Fig. \ Ref {alg1}
-\end{itemize}
-
-
-%\begin{prop}[Procedure]
-%	\item Put the object in a random place(as long as its incide the working area)
-%	\item Initialize the system and take the range photo
-%	\item Use algorithm \ref{alg1} to segment the image
-%	\item Use algorithm \ref{alg2} to find the centroid and the height of the object ($X_d$)
-%	\item A  
-%\end{prop}
-
-\section{2.5 D reconstrucción}
-
-
-%The results of the segmentation can be found in the \cref{vaso,vas}, in which it is observed the segmented object along with the edges gotten, this edges will be used to determine the centroid of the object, as we just have one point of view, it would be difficult or unreliable to use all of the points, so we use this key points.\\
-%The results of the segmentation can be found in the \cref{vaso,vas}, in which the segmented object is observed, along with the edges. These edges will be used to determine the centroid of the object, as we just have one point of view, it would be difficult or unreliable to use all of the points, so we use this key points.
-
-Los resultados de la segmentación se pueden encontrar en el \ref{vaso,vas}, en el que se observa el objeto segmentado, junto con los bordes. Estos bordes se utilizarán para determinar el centroide del objeto, ya que sólo tenemos un punto de vista, sería difícil o poco fiable utilizar todos los puntos, por lo que usamos estos puntos clave.
-
-%The experiment was repeated with other objects, of different shapes, with satisfactory results on the used objects, they were no smaller than 2cm on any face and were objects in which the centroid is inside the object, on the contrary objects in which the centroid was outside the object weren't used on the experiments, but the algorithm used for sujeción would be unable to grasp them, finally reflective objects were not even detected by the camera, so they were not taken in account.\\
-%The experiment was repeated with other objects of different shapes with satisfactory results on the used objects. They were no smaller than 2cm on any face and were objects in which the centroid is inside the object. On the contrary, objects in which the centroid was outside the object were not used on the experiments, because the algorithm used for sujeción would be unable to grasp them. Finally, reflective objects were not even detected by the camera, so they were not taken into account.
-El experimento se repitió con otros objetos de diferentes formas con resultados satisfactorios sobre los objetos usados. No eran menores de 2 cm en ninguna cara y eran objetos en los que el centroide está dentro del objeto. Por el contrario, los objetos en los que el centroide estaba fuera del objeto no fueron utilizados en los experimentos, porque el algoritmo utilizado para agarrar sería incapaz de captarlos. Por último, los objetos reflejantes ni siquiera fueron detectados por la cámara, por lo que no se tuvieron en cuenta.
-
-%The speed of this algorithms for a image of size $640\times480$ on the computer used for experiments was 2.8 seconds, which make it impossible use it on line, that being the reason this code is performed before the control part, but using this code on a computer on Windows 7 with an AMD A8-45000M processor, the code could run at 0.1 seconds.\\
-%The speed of these algorithms for an image of size $640\times480$ on the computer used for experiments was 2.8 seconds, which make it impossible to use it on-line. That being the reason this code is performed before the control part, but using this code on a computer on Windows 7 with an AMD A8-45000M processor, the code could run at 0.1 seconds.
-
-\begin{figure}[h]
+\begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/imx1}
+	\includegraphics[width=0.5\linewidth]{visio/visio3/coordenadasrobcam2}
 	\caption{}
-	\label{fig:imx1}
+	\label{fig:coordenadasrobcam}
 \end{figure}
-\begin{figure}[h]
+
+
+\begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/imx2}
+	\includegraphics[width=0.5\linewidth]{Imagenes/DSC_9825}
 	\caption{}
-	\label{fig:imx2}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/imx3}
-	\caption{}
-	\label{fig:imx3}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/erx3}
-	\caption{}
-	\label{fig:erx2}
+	\label{fig:dsc9825}
 \end{figure}
 
 
 
+\subsection{\textit{Gripper}}
+El \textit{Gripper} que vamos a utilizar es el modelo SCHUNK WSG-50 que aparece en \cref{fig:dsc9821}, tiene un observador de fuerza, utiliza una fuente de 24V, la abertura es de 10 cm y se puede utilizar con MATLAB para ser operado. \\
+Para ser usado se necesitó establecer la comunicación con \textbf{MATLAB}, esta es comunicación básica, en la que se manda un paquete de datos que contiene el comando y las opciones, en el apéndice \ref{codewsg50}, aparece el código que se uso.
 
-
-
-
-
-La velocidad de estos algoritmos para una imagen de tamaño $ 640 \times480 $ en la computadora utilizada para experimentos fue de 2,8 segundos, lo que hace imposible su uso en línea. Esa es la razón por la que este código se realiza antes de la parte de control, pero utilizando este código en un equipo en \textbf{Windows 7} con un procesador AMD A8-45000M, el código podría ejecutarse en 0.1 segundos.
-
-
-
-\clearpage
-
-
-\section{Movimiento del Robot}
-
-
-%The performance of the controller can be observed on \cref{e,u,eu}, this is the third epoch of training so the $\beta_i$ values are different from the initial.
-El rendimiento del controlador se puede observar en \cref{e,u,eu}, esta es la tercera época de entrenamiento, por lo que los valores $ \beta_i $ son diferentes de la inicial.
-
-%The \cref{e} shows the error in cm, versus the time units in iterations of the program. As it can be observed in \cref{e}, the sensors present some Gaussian noise of about $\pm 0.5 cm$, the noise is not so obvious when the axis moves, but it is wen the axis is on a stationary state, the noise seen in the X,Y while the Z axes moves is due to vibrations presented on the movement of Z axis.\\
-%The \cref{e} shows the error in cm, versus the time units in iterations of the program. As it can be observed in \cref{e}, the sensors present some Gaussian noise of about $\pm 0.5 cm$. The noise is not so obvious when the axis moves, but it is when the axis is on a stationary state. The noise seen in the X,Y while the Z axes moves is due to vibrations presented on the movement of Z axis.
-El \cref{e} muestra el error en cm, en comparación con las unidades de tiempo en las iteraciones del programa. Como puede observarse en \cref{e}, los sensores presentan un ruido distribuido normalmente de aproximadamente $ \pm 0,5 cm $. El ruido no es tan obvio cuando el eje se mueve, pero es cuando el eje está en un estado estacionario. El ruido visto en los ejes X, Y mientras Z se mueve se debe a las vibraciones presentadas en el movimiento del eje Z.
-
-
-%On the Fig. \ref{e} it can be seen, at the begin of the movement the X axis starts moving with a certain slope, when approaching zero that slope changes, as expected of the values used, but near zero that slope changes again being more aggressive than expected, this can be due to a wrong choose of the values for $\beta_i$,this problem is present on the 3 axes,  fortunately this doest seem to affect the reaching with a overshot, but its not as smooth as expected.\\
-
-%On the \cref{e} it can be seen at the begin of the movement. The X axis starts moving with a certain slope, when approaching zero that slope changes, as expected of the values used, but near zero that slope changes again being more aggressive than expected. This can be due to a wrong choose of the values for $\beta_i$. This problem is present on the 3 axes. Fortunately, this didn't seem to affect the reaching with an overshot, nevertheless the response was not as smooth as expected.
-En \cref{e} se puede ver al comienzo del movimiento. El eje X empieza a moverse con una cierta pendiente, cuando se aproxima a cero cambia la pendiente, como se esperaba de los valores utilizados, pero cerca de cero esa pendiente cambia de nuevo siendo más agresiva de lo esperado. Esto puede deberse a una elección incorrecta de los valores de $ \ beta_i $. Este problema está presente en los 3 ejes. Afortunadamente, esto no parecía afectar el alcance con un sobrepaso, sin embargo la respuesta no fue tan suave como se esperaba.
-
-
-%The Fig. \ref{u} shows the Control Signal, there can be seen the reason of the change in the sloop of the error, that is that change in the control signal.\\We can also see that after the reaching to the desired point, there exist some error due to the noise of the sensors, this noise triggers the control signal, but those values are small enough to stay on the desired point.\\
-
-%The \cref{u} shows the Control Signal. There can be seen that the reason of the change in the slope of the error is the change in the control signal. We can also see that after reaching to the desired point, there exists some error due to the noise of the sensors. This noise triggers the control signal, but those values are small enough to stay on the desired point.
-El \cref{u} muestra la señal de control. Se puede ver que la razón del cambio en la pendiente del error es el cambio en la señal de control. También podemos ver que después de llegar al punto deseado, existe algún error debido al ruido de los sensores. Este ruido activa la señal de control, pero estos valores son lo suficientemente pequeños como para permanecer en el punto deseado.
-
-
-%Finally looking at Fig. \ref{eu} we see a graphic of  the control signal Vs. the error,in this experiment, because the error of the Y axis has a different sign, we can observe the symmetry that the control signal would have.
-
-%having a zoom of the region near zero on Fig. \ref{euzoom}, we can see the change of the slope, which is the reason for the control signal to be less smooth, this problem didn't create a overshot, but the values didn't increased which after the training.
-
-%Finally, %looking at \cref{eu} %, we see a graphic of the control signal vs. the error. In this experiment, 
-%because the error of the Y axis has a different sign, we can observe in \cref{eu} the symmetry that the control signal would have. By looking carefully at the region near zero, we can see the change of the slope,which is the reason for the control signal to be less smooth. This problem didn’t create an overshot, on the other hand the values of this region didn’t increased after the training.
-
-Finalmente,% mirando a \ cref {eu}%, vemos un gráfico de la señal de control frente al error. En este experimento,
-Debido a que el error del eje Y tiene un signo diferente, podemos observar en \cref{fig:eu} la simetría que tendría la señal de control. Observando cuidadosamente la región cercana a cero, podemos ver el cambio de pendiente, que es la razón por la que la señal de control es menos lisa. Este problema no generó un sobrepaso, por otro lado los valores de esta región no aumentaron después del entrenamiento.
-
-
-
-
-
-\begin{figure}[h]
+\begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/ap4ro}
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9821}
 	\caption{}
-	\label{fig:ap4ro}
+	\label{fig:dsc9821}
 \end{figure}
-\begin{figure}[h]
+
+\subsubsection{base del \textit{Gripper}}
+Se diseño la base para el \textit{Gripper}, y los dedos, se intenta usar el sensor de fuerza y momento, por lo que uno de los 2 dedos tiene una cavidad para este. en el apéndice \ref{label}, se puede encontrar el diseño que se uso.
+
+en la imagen \ref{label}, se encuentra el resultado
+
+
+
+
+\subsection{cámara}
+
+El sistema de visión usa una cámara RGBD que se muestra en la figura \ref{fig:dsc9822}, se uso un programa entre MATLAB y Openni \cite{matlabwrapper}.
+
+La cámara que se uso es el ASUS XTION PRO, su sensor de profundidad tiene un rango operativo de 0,8 metros a 3,5 metros, la resolución de la imagen de color y la imagen de profundidad es $480 \times640$, y la velocidad de fotogramas es 20 cuadros por segundo, ya que es la velocidad de fotogramas del sensor de profundidad. \\
+
+esta cámara trabaja con el software Openni, que es la librería en c++, esta librería tiene funciones para usar la cámara y hacer ciertas operaciones,
+
+al principio se pensaba usar la imagen de rango del sensor de profundidad, que es la distancia desde el sensor hasta el punto censado, esto se pudo evitar gracias a las funciones integradas en Openni.
+
+MATLAB, en ninguna de sus versiones tiene soporte oficial para las cámaras ASUS, aunque si tiene soporte para nuevos dispositivos, pero existe el programa envolvente entre \textbf{MATLAB} y Openni.
+el problema con este programa es que requiere de unas condiciones muy especificas para poder ser instalado. entre esas condiciones esta
+
+-usar \textbf{MATLAB} 2010
+-compilar con \textbf{Microsoft visual Studio} 2010
+
+
+una vez instalado se puede usar en otras versiones de \textbf{MATLAB}, en este caso se uso en la versión 2015
+
+
+\begin{figure}
 	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/ap4rou}
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9823}
 	\caption{}
-	\label{fig:ap4rou}
+	\label{fig:dsc9823}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9824}
+	\caption{}
+	\label{fig:dsc9824}
 \end{figure}
 
 
+\section{Protocolo de Experimentación}
+
+\section{Conclusiones}
 
 
-
-
-
-\clearpage
-
-\section{Sujeción}
-
-
-
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=1\linewidth]{visio/visio3/ap4sen}
-	\caption{}
-	\label{fig:ap4sen}
-\end{figure}
-
-
-
-
-
-
-
-La parte final del proyecto es cuando se logra el sujeción del objeto, en esta sección se discuten los resultados obtenidos por el sensor de fuerza y momentos durante el agarre.
-
-
-En la figura \ref{fig:ap4sen} se muestran los resultados obtenidos, se puede observar que señal amarilla, la cual representa la fuerza ejercida en z, que es la ejercida sobre el objeto, es la de mayor magnitud, pero no solo se puede ver esta señal, sino también los momentos que se ejercen en el eje x y el eje y, estos momentos son causados por que hay una desviación con respecto al centro de masa del objeto desde el punto de referencia, donde esta el sensor, esto no significa que el objeto no haya sido tomado desde un punto en el cual los momentos sean demasiado grandes, solo significa que hay una distancia entre el sensor y el centro de masas, lo que genera este momento.
-
-El resto de las señales que son los componentes de fuerza en los ejes x,y ademas del momento en el eje z, estas 3 señales son pequeñas en comparación con el resto, esto es debido a estos valores se generan simplemente como resultados al resto.
-
-
-Una de las cosas importantes que se debe recalcar es que; las vibraciones del robot hicieron un poco mas difícil las mediciones.
-
-El método que se tenia pensado usar para medir la fuerza era el uso de las vibraciones del objeto cuando se desliza por los dedos del \textit{Gripper}, esta manera de medir ya ha sido utilizada en algunos trabajos. En el caso de este robot las vibraciones del mismo hacen realmente difícil distinguir entre las que son debidas al movimiento del robot y las que son debido al deslizamiento del objeto.
