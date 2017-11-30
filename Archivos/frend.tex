@@ -10,6 +10,9 @@
     La sujeción por fuerza es aquella que usa la fuerza de fricción para evitar que el objeto se mueva, el beneficio de usar fricción dentro del modelo es se disminuyen los puntos de contacto, solo se necesitan 3 puntos de contacto para sujeción por fuerza si se usa un modelo con dedos rígidos, pero se puede reducir a 2 si se usa un modelo con dedos flexibles.
     
 
+    \section{Comunicacion con el Gripper}
+    
+	El gripper usado es el WSG50 y fue nesesario establecer una comunicacion con el bia matlab, para poder conservar la mayoria del codigo corriendo unicamente en \textit{matlab} porque el gripper solo tenia 2 formas de 
     
     \section{FREN de múltiples entradas}
     Cada una de estas entradas es convertida a valores difusos que corresponde con la ecuación \ref{eqmu}, con la diferencia de que esta estará no esta en función del error, solo para hacer distinción se definirá como:
@@ -68,7 +71,7 @@
     \begin{figure}[h]
     	\centering
     	\includegraphics[width=0.6\linewidth]{visio/mfren2}
-    	\caption{}
+    	\caption{Estructura de control MiFREN}
     	\label{fig:mfren2}
     \end{figure}
     
@@ -145,7 +148,7 @@
     	\pagebreak
     	\begin{tabular}{|c||c|c|c|c|c|}
     		\hline
-    		$FRA=0.2$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
+    		$FRA=1$	 &$W_L$&$W_{Ml}$&$W_M$&$W_{Mh}$&$W_H$\\
     		\hline  
     		\hline  
     		$FRI_L$&8.5499  & 10.7722 &  12.3311  & 13.5721 &  14.6201\\
@@ -166,24 +169,26 @@ Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{visio/responce}
-	\caption{}
+	\caption{Mesh de la Respuesta de MiFREN}
 	\label{fig:responce}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=0.3\linewidth]{visio/visio/force05}
+		\caption{Respuesta de MiFREN para FRA=0.5}
 	\label{fig:force0}
 \end{figure}
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=0.3\linewidth]{visio/visio/force0}
+		\caption{Respuesta de MiFREN para FRA=0}
 	\label{fig:force05}
 \end{figure}
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=0.3\linewidth]{visio/visio/force1}
-	\caption{}
+	\caption{Respuesta de MiFREN para FRA=1}
 	\label{fig:force1}
 \end{figure}
 
@@ -192,11 +197,3 @@ Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados
 
 
 
-
-\section{Trabajo futuro}
-
-El mayor inconveniente de este acercamiento al problema de sujeción es que se necesitaría que fuese supervisado, lo cual va en contra de los objetivos deseados, como continuación se desea tener una base de datos que contenga los valores para una gran variedad de objetos.
-
-
-Con respecto al hecho de conseguir el centroide con la cámara, esto no garantiza que corresponda con el centro de masas del objeto, la propuesta para este problema es calcularlo con el sensor de fuerza disponible, el cual es capaz de conseguir el \textit{Wrench}, teniendo 2 sensores de este tipo, en caso de que el centro de masas este en el centroide del objeto, ambos censores deberían tener mediciones iguales, pero en caso de que no sea este el caso los sensores deberían mostrar discrepancias en las mediciones y en base a estas debería poder calcularse el valor real del cetro de masas, lo que ayudaría conseguir información adicional acerca del objeto.
-Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hecho de tener una realimentación por parte de un sensor que mida el deslizamiento de la pieza, en este caso, es imposible de hacerse con la cámara, y los sensores de \textit{Wrench}, no son capaces de medirlo. En algunos trabajos ha sido reportado que el deslizamiento puede ser medido como un tipo de ruido por vibraciones debido a la rugosidad de las superficies rozándose, por lo que se podría tener también un indicador de la rugosidad entre el \textit{Gripper} y el objeto, por desgracia los sensores que se tienen, no son capaces de distinguir este ruido, esto sumado a que, en algunas áreas de la trayectoria, el mismo robot presenta una gran cantidad de vibraciones, para conseguir la medición de deslizamiento se pretende usar una matriz de resistencias que se tendrán en los dedos del \textit{Gripper}, esta matriz mostrara variaciones de voltaje dependiendo de la fuerza con la que se sujete la pieza, siempre y cuando exista el contacto entre ambos, con esto se puede crear una imagen de presión, de la cual se puede conseguir un centroide, este representaría el punto de contacto principal, en caso que existir un área de contacto. 

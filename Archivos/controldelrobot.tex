@@ -23,7 +23,7 @@
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{visio/controldiag}
-	\caption{}
+	\caption{Diagrama de Control}
 	\label{fig:controldiag}
 \end{figure}
 
@@ -32,7 +32,7 @@
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{visio/fren}
-	\caption{}
+	\caption{Estructura General de FREN}
 	\label{fig:fren}
 \end{figure}
     
@@ -40,18 +40,18 @@
     Primero definamos al error como \begin{equation}
     	e(k)=X_d - X(k)
     \end{equation}, donde $e(k)$ es el error actual, $X_d$ es la posición deseada conseguida del algoritmo de visión, y $X(k)$ es la posición actual que se consigue por la realimentación de los potenciómetros, este error sera la entrada para el controlador FREN.
-    Lo siguiente sera definir las reglas lingüísticas \textbf{"\ SI... ENTONCES ..."}, que se encargaran de convertir la entrada a valores difusos, estas reglas serán definidas con el conocimiento previo que se tenga de la planta, estas reglas son una relación burda entre la entrada y la salida, estas reglas se presentan en \ref{labellist}, estas reglas son representadas como funciones de membresía, que evalúan que tan cierto es cada una de estas reglas, en este caso estamos usando la función de \textbf{gauss} para hacer la evaluación, estas funciones pueden verse en \ref{labellist}, como puede verse la definición de los valores $PL_e,PS_e,Z_e,NS_e,NL_e $ se hace para poder definir las funciones de pertenencia, donde estos valores representan el punto medio de las funciones, y la distancia entre estas es definida por el usuario.
+    Lo siguiente sera definir las reglas lingüísticas \textbf{"\ SI... ENTONCES ..."}, que se encargaran de convertir la entrada a valores difusos, estas reglas serán definidas con el conocimiento previo que se tenga de la planta, estas reglas son una relación burda entre la entrada y la salida, estas reglas se presentan en \ref{labellist}, estas reglas son representadas como funciones de membresía, que evalúan que tan cierto es cada una de estas reglas, en este caso estamos usando la función de \textbf{Gauss} para hacer la evaluación, estas funciones pueden verse en \ref{labellist}, como puede verse la definición de los valores $PL_e,PS_e,Z_e,NS_e,NL_e $ se hace para poder definir las funciones de pertenencia, donde estos valores representan el punto medio de las funciones, y la distancia entre estas es definida por el usuario.
     
     
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{visio/membership}
-	\caption{}
+	\caption{Funciones de Pertenencia Usadas}
 	\label{fig:membership}
 \end{figure}
     
     
-    Cada una de estas funciones puede ser agrupada en el vector \cref{eqmu}, este vector representa a todos los estados de $\mu$, como paso adicional se necesita normalizar el vector $\mu$, esto ayuda a tener la salida mas suave, en caso de que no se normalice, existirán casos en los que la sumatoria de $\mu$ sea mayor a 1 y otros en los que sea menor a 1, esto se debe a que se eligió la función \textbf{gauss}, un ejemplo de esto puede verse en \cref{fig:membership}.
+    Cada una de estas funciones puede ser agrupada en el vector \cref{eqmu}, este vector representa a todos los estados de $\mu$, como paso adicional se necesita normalizar el vector $\mu$, esto ayuda a tener la salida mas suave, en caso de que no se normalice, existirán casos en los que la sumatoria de $\mu$ sea mayor a 1 y otros en los que sea menor a 1, esto se debe a que se eligió la función \textbf{Gauss}, un ejemplo de esto puede verse en \cref{fig:membership}.
     \begin{equation}
     \label{eqmu}
     \mu=\begin{bmatrix}
@@ -65,6 +65,7 @@
     Continuando con la etapa de la consecuencia lineal, tenemos que la esta se define como: las funciones de pertenencia ponderadas por un peso característico de cada una, esto se resume en \begin{equation} 
     lc_i= \mu_i \beta_i
     \end{equation}, donde $\mu_i$ es el valor $i$ del vector $\mu$, y $\beta_i$ es el valor correspondiente del peso de cada función de pertenencia, este peso es definido por el usuario y se puede representar como \begin{equation}
+    \label{betav}
     \beta=\begin{bmatrix}
     \beta_{PLe} \\ 
     \beta_{PSe}\\ 
@@ -78,49 +79,80 @@
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{visio/betas}
-	\caption{}
+	\caption{Ganancias $\beta$ Usadas}
 	\label{fig:betas}
 \end{figure}
     
     
     
     Por ultimo tenemos la etapa de salida, en esta, la salida se define como la sumatoria de los valores que fueron resultado de la consecuencia lineal que se define como \begin{equation}
-    \label{u}
+    \label{ulc}
     U(k)= \sum lc_{i},
     \end{equation} esto puede cambiarse por \begin{equation}
+    \label{usum}
     U(k)=\sum_{i=1}^{r} \mu_i \beta_i,
     \end{equation} que a su vez  puede interpretarse como
     \begin{equation}
-    \label{u}
+    \label{udot}
     U(k)=\mu^T \cdot \beta ,
     \end{equation}\\
     de esta manera se evalúa la salida de control FREN.
     
     Pero los valores iniciales podrían no ser los adecuados, por lo cual se tiene una fase de aprendizaje, esto sirve para adaptar los pesos $\beta$ a los valores que se necesiten, la función de aprendizaje usada es: \begin{equation}
+    \label{update}
     \beta(k+1)_i=\beta(k)_i+\eta Y_p \mu_i(k) e_i(k),
     \end{equation} donde $\eta$ es la constante de aprendizaje, $Y_p$ es la relación entre la estrada de control y la salida del sistema, ($Y_p= \dfrac{\partial X}{\partial U}$).
     
     
+    \section{Implementación}
     
+    
+    De la misma manera en que se realizo la implementación para la sección de visión, en esta sección se explicaran los cambios que se hicieron para la implementación formal de FREN de una entrada, como se había explicado, al ser una implementación en \textit{Matlab}, lo mejor seria usar la mayor cantidad de operaciones con matrices, y también hacer funciones para que sea sencillo usarlo en algún otro lenguaje (en alguna ocasión posterior).
+    
+    La evaluación de una FREN de una entrada es descrita de manera conceptual en \cref{fig:fren}, pero la forma mas simple de verlo es como aparece en \cref{udot}, lo cual es muy conveniente al reducirse de la sumatoria de unas multiplicaciones a un producto entre 2 vectores, por esta razón es conveniente expresar tanto $\mu$ como $\beta$ en forma vectorial. Otra característica importante es que se integraran los datos dentro de una estructura,  esto para no confundir variables de una estructura FREN con otros valores. Otra cosa importante es que las funciones de pertenencia son creadas y guardadas dentro de la estructura, por ultimo hay recordar el aprendizaje que se lleva acabo con \cref{update}, también es calculado usando vectores, pero en este caso son operaciones de elemento por elemento, para hacer mas fácil su uso.
+    
+    El código esta dividido en 3 funciones principales.
+    
+    La primera función es la creación de una estructura donde se guardaran los datos del FREN, como son las funciones de pertenencia y el vector de pesos ($\beta$), los valores de entrada a esta función son; 
+   
+   \begin{itemize}
+   	\item class: es la classe de FREN, si es de una entrada o de múltiples entradas
+   	\item type: se refiere al tipo de funcion que se usara para la funcion de pertenencia.
+   	\item center: esta variabe es un vector que representa el centro de las funciones de pertenencia, se espera que este este ordenado de menor a mayor y que los vectores posteriores esten ordenados de manera que correspondiente con este.
+   	\item base: es un vector con el ancho de las bases de la funcion de pertenencia, para los elementos de los extremos, el lado mas alejado de cero es 1.
+   	\item betas: es un vector con los pesos para cada funcion de pertenencia, que aparece en \cref{betav}
+   	\item y: esta representa la variable $Y_p$, que es la relacion entre la entrada de control y la salida del sistema.
+   	\item eta: esta variable es la constante de aprendizaje que se usa para modificar los pesos ($\beta$)
+   \end{itemize}
+   
+   Esta función \textit{Shipconstruction}, crea una estructura donde se guardan los valores de entrada y genera las funciones de pertenencia acorde a los datos de entrada y el tipo de función, primero se crea la función que esta en la primer posición del vector, el cual es el mas negativo, después las simétricas usando un ciclo \textit{for} y al final la mas positiva, estas funciones creadas se guardan en un arreglo, y pueden ser evaluadas desde fuera de la estructura con la ruta.
+   
+   
+   La segunda funcion es la que hace la evaluacion de los datos, esta es una funcion externa a la estructura, pero podria integrarse en la estructura FREN, lo principal es realizar la multiplicacio, asi que se evaluan las funciones con el valor de entrada al FREN, se guardan los resultados de esta evaluacion en un vector con la pertenencia a cada funcion (\cref{eqmu}), y se realiza el producto punto con el vector de pesos ($\beta$) siendo el resultado la salida de esta funcion y la otra salida es el vector de pertenencia que sera usado para la tercer funcion.
+   
+   La tercera funcion es la que se encarga de hacer la actualizacion de los pesos, usa el error, por lo que se tiene que hacer una medicion antes de usarse, siendo que los valores del error, la constante de aprendizaje y la constante del sistema son escalares, simplemente se pondera el vector de pertencias conestos valores y se suma al vector de $\beta$ actual.
+   
+   El codigo puede ser encontrado en \cref{FRENcode}  
+   
    \section{Resultados}
    
     
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{visio/he}
-	\caption{}
+	\caption{Error de Posicion del Robot}
 	\label{fig:he}
 \end{figure}
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\linewidth]{visio/heu}
-	\caption{}
+		\includegraphics[width=0.7\linewidth]{visio/heu}
+	\caption{Respuesta del Control Vs Error de Posicion}
 	\label{fig:heu}
 \end{figure}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{visio/hu}
-	\caption{}
+	\caption{Respuesta del Control}
 	\label{fig:hu}
 \end{figure}
     

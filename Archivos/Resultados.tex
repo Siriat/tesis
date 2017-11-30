@@ -10,7 +10,7 @@ La plataforma que estamos usando es un robot cartesiano de 3 DOF visto en la Fig
 \begin{figure}
 	\centering
 	\includegraphics[width=0.5\linewidth]{visio/visio3/coordenadasrobcam2}
-	\caption{}
+	\caption{Representacion de un Robot Cartesiano}
 	\label{fig:coordenadasrobcam}
 \end{figure}
 
@@ -31,7 +31,7 @@ Para ser usado se necesitó establecer la comunicación con \textbf{MATLAB}, est
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9821}
-	\caption{}
+	\caption{\textit{Gripper} modelo SCHUNK WSG-50}
 	\label{fig:dsc9821}
 \end{figure}
 
@@ -49,24 +49,13 @@ El sistema de visión usa una cámara RGBD que se muestra en la figura \ref{fig:
 
 La cámara que se uso es el ASUS XTION PRO, su sensor de profundidad tiene un rango operativo de 0,8 metros a 3,5 metros, la resolución de la imagen de color y la imagen de profundidad es $480 \times640$, y la velocidad de fotogramas es 20 cuadros por segundo, ya que es la velocidad de fotogramas del sensor de profundidad. \\
 
-esta cámara trabaja con el software Openni, que es la librería en c++, esta librería tiene funciones para usar la cámara y hacer ciertas operaciones,
 
-al principio se pensaba usar la imagen de rango del sensor de profundidad, que es la distancia desde el sensor hasta el punto censado, esto se pudo evitar gracias a las funciones integradas en Openni.
-
-MATLAB, en ninguna de sus versiones tiene soporte oficial para las cámaras ASUS, aunque si tiene soporte para nuevos dispositivos, pero existe el programa envolvente entre \textbf{MATLAB} y Openni.
-el problema con este programa es que requiere de unas condiciones muy especificas para poder ser instalado. entre esas condiciones esta
-
--usar \textbf{MATLAB} 2010
--compilar con \textbf{Microsoft visual Studio} 2010
-
-
-una vez instalado se puede usar en otras versiones de \textbf{MATLAB}, en este caso se uso en la versión 2015
 
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{Imagenes/DSC_9823}
-	\caption{}
+	\caption{Camara Asus Xtion live pro}
 	\label{fig:dsc9823}
 \end{figure}
 \begin{figure}

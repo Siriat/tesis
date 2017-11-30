@@ -2,26 +2,53 @@
 
 \section{Definición del Problema}
 
+
+
 \section{Motivación}
+La motivación de este trabajo son aquellas situaciones en las que algún objeto desconocido pueda necesitar ser  sujetado en un entorno semi-estructurado, lo que significa que se conocen algunas de las características de este,
 
 \section{Objetivos}
 
 \subsection{Objetivo General}
 
+El objetivo principal de la tesis es realizar una sujeción de un objeto objeto desconocido con un robot cartesiano
+
 \subsection{Objetivo Especifico}
+\begin{itemize}
+	 
+
+\item Conectar la cámara y el \textit{Gripper} a \textit{Matlab} para poder escribir el resto del código en esta plataforma de programación, esto para agilizar el desarrollo.
+
+\item Hacer una rotación de las coordenadas de la imagen de profundidad, para alinear las coordenadas de la imagen con las coordenadas del robot, y así poder tener los objetos en coordenadas que el robot pueda seguir fácilmente.
+
+\item Segmentar el objeto usando información del espacio de trabajo y encontrar su centroide y altura, los cuales serán el punto a donde se dirija el \textit{Gripper}.
+
+\item Utilizar el control FREN para mover el robot.
+
+\item Diseñar los dedos a ser usando junto con el sensor de fuerza, y comparar la utilidad del sensor de fuerza incluido en el \textit{Gripper}, contra el sensor de fuerza que 
+
+\item Realizar experimentos
+
+\end{itemize}
+%1.-Hacer una rotacion de las coordenadas de la imagen de profundidad, usando una matriz de rotacion en las coordenadas de la imagen para alinear las coordenadas de la imagen con las coordenadas del robot.
+
+%2.-Usando la informacion que se tiene del espacio de trabajo, eliminar todos los puntos que esten fuera del alcanze del robot.
+
+%3.-Adquirir la posicion del centroide del objeto usando el operador \textit{sobel} para eliminar los puntos menos relevantes y usando la media del resto de los puntos.
+
+%4.-Conoser la altura a la que deberia estar el gripper, usando la altura maxima del area que abarca el gripper sobre el objeto.
+
 
 \section{Hipótesis}
-Usando 
-es puedosible realizar la sujeccion de objetos desconocidos con un robot cartesiano usando un control adaptivo basado en conocimiento humano
+Usando una imagen de profundidad de una sola vista del objeto y un sensor de fuerza es posible realizar la sujeción de objetos desconocidos con un robot cartesiano usando un control adaptativo basado en conocimiento humano.
 
-antitesis
+%antitesis
 
 
-sintesis
+%sintesis
 
 \section{Trabajo Previo}
-Sujetar es una de las tareas mas básicas en la robótica, por lo que es completamente necesaria para tareas de mayor complejidad tener una sujetar correcto, para poder tener una sujeción exitosa se necesita tener información especifica acerca del objeto, lo mas común es la posición, las dimensiones, el peso y los puntos de agarre, pe
-ro para esto se necesitaría conocer al objeto previamente, en el caso de los objetos nuevos o desconocidos esta información no esta presente, por lo que la sujeción se complica, esto es porque esos datos son importantes y deben ser conseguidos.
+Sujetar es una de las tareas mas básicas en la robótica, por lo que es completamente necesaria para tareas de mayor complejidad tener una sujetar correcto, para poder tener una sujeción exitosa se necesita tener información especifica acerca del objeto, lo mas común es la posición, las dimensiones, el peso y los puntos de agarre, pero para esto se necesitaría conocer al objeto previamente, en el caso de los objetos nuevos o desconocidos esta información no esta presente, por lo que la sujeción se complica, esto es porque esos datos son importantes y deben ser conseguidos.
 
 
 Han habido varias obras en esta tarea, ya que es una de las más comunes, algunas obras se enumeran en las compilaciones \cite{carlos2013survey}, como se puede ver en esas obras el uso de un sistema de visión es algo común. Por un largo tiempo, al principio no era tan recomendable como la velocidad de fotogramas y los algoritmos, eran lentos, como se comenta en [3], ahora con cámaras RGBD es más fácil de trabajar con el sensor profundidad de la misma manera que usamos un cámara de color, esto ha sido útil porque es más fácil trabajar el algoritmo de visión en la imagen RGB y la imagen profundidad. \\
@@ -49,15 +76,15 @@ Este trabajo se divide en la identificación del objeto desconocido y el alcance
 Para el alcance del objeto se utilizó el controlador adaptativo (FREN) \cite{fren}, presentado en \cref{ch.fren}, lo cual resulta conveniente para la simplicidad de su inicialización y adaptación rápida.
 
 \section{Contribución}
-En este trabajo se usa una metodologia ligeramente distinta a la usada en \cref{labellist},  siendo este el mas cercano.
-con la intencion de hacer el codigo mas rapido para el calculo del centroide del objeto, usando los puntos mas relevantes de la imagen, tomando en cuenta el espaciado entre estos puntos.
+En este trabajo se usa una metodología ligeramente distinta a la usada en \cref{labellist},  siendo este el mas cercano.
+con la intención de hacer el código mas rápido para el calculo del centroide del objeto, usando los puntos mas relevantes de la imagen, tomando en cuenta el espaciado entre estos puntos.
 esto ayuda a calcular el centroide usando la media de los puntos.
 
 \section{Metodología}
 
-Como puede verse en \cref{fig:metodologia}, esta tesis esta dividida en 3 partes principales, la parte de vision y control que sirven para atacar el problema de la sujeccion de un objeto desconocido.
+Como puede verse en \cref{fig:metodologia}, esta tesis esta dividida en 3 partes principales, la parte de visión y control que sirven para atacar el problema de la sujeción de un objeto desconocido.
 
-La seccion de vision es que se encargara de encontrar un objeto cualquiera y la parte de control se encargara de mover el robot hasta alcanzar la posicion de este objeto, esto con intencones de sujtear el objeto.
+La sección de visión es que se encargara de encontrar un objeto cualquiera y la parte de control se encargara de mover el robot hasta alcanzar la posición de este objeto, esto con intención de sujetar el objeto.
 
 \begin{figure}[h]
 	\centering
@@ -80,10 +107,10 @@ Como se muestra en \cref{fig:1}, el control para llegar al objeto se deja como u
 \section{Organización del documento}
 
 
-En el capitulo 2 se mencionaran unos conceptos basicos de vision para entender la segmentacion y el calculo del centroide de los objetos, en el apendice \cref{cinematica}, se explican algunos conceptos de matematicas que se usan para los cambios de los marcos de referencia. en el capitulo 3 se explica el control usado para el movieminto del robot, este control pertenece a la familia de las ANFIS(Sistema Adaptativo de Inferencia Neuro-Difusa ), algunos conceptos necesarios pueden encontrarse en \cref{basesneurodifusas}. explicando paso a paso. en el capitulo 4 se habla de la decicion de fuerza que se uso para el gripper, 
+En el capitulo 2 se mencionaran unos conceptos básicos de visión para entender la segmentación y el calculo del centroide de los objetos, en el apéndice \cref{cinematica}, se explican algunos conceptos de matemáticas que se usan para los cambios de los marcos de referencia. en el capitulo 3 se explica el control usado para el movimiento del robot, este control pertenece a la familia de las ANFIS(Sistema Adaptativo de Inferencia Neuro-Difusa ), algunos conceptos necesarios pueden encontrarse en \cref{basesneurodifusas}. explicando paso a paso. en el capitulo 4 se habla de la decisión de fuerza que se uso para el \textit{Gripper}, 
  %estos capítulos están estructurados en una introducción, algunos conceptos básicos, el tema principal del capitulo, los resultados obtenidos en cada fase, y algunas discusiones acerca del capitulo,
-en el capitulo 5 se muestran los resultados obtenidos en los experimentos y finalmente el el capitulo 6 se presentan las concluciones generales y se habla hacerca del trabajo futuro.
+en el capitulo 5 se muestran los resultados obtenidos en los experimentos y finalmente el el capitulo 6 se presentan las conclusiones generales y se habla acerca del trabajo futuro.
 
-Al final del documento, en \cref{diseno} se muestran los planos del los dedos del \textit{gripper}, en \cref{publicaciones} se muetra una publicacion que fue resultado de este trabajo, y finalmente en \cref{codigo} esta incluido el codigo que se uso, ya sea el codigo de vision, el de control junto con algunas funciones necesarias, el comunicacion con el \textit{gripper} y el codigo completo.
+Al final del documento, en \cref{diseno} se muestran los planos del los dedos del \textit{Gripper}, en \cref{publicaciones} se muestra una publicación que fue resultado de este trabajo, y finalmente en \cref{codigo} esta incluido el código que se uso, ya sea el código de visión, el de control junto con algunas funciones necesarias, el comunicación con el \textit{Gripper} y el código completo.
 
 

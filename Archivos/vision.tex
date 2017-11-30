@@ -1,91 +1,98 @@
     \chapter{Segmentacion y Posicionamiento apartir de vista de una imagen RGB-d}
     
+    Para las aplicaciones de visión se necesita tener en cuenta el sistema en el que se estará usando y las condiciones, por esas razones se necesita tener en cuenta las consideraciones que se hicieron en el capitulo \ref{intro}. Normalmente se toman varias consideraciones cuando se buscan objetos, y se requiere información acerca de este, pero esto no es posible cuando se busca un nuevo objeto.
     
+    Uno de los métodos usados es el de la simetría, un ejemplo es \cite{vis:kootstra2010fast}, en el que se usa un método llamado "\ Automatic Detection And Segmentation (ADAS)", en el que se usan superpixeles para facilitar el reconocimiento de la simetría, la cual es una de las bases para la percepción de objetos en la psicología \textit{Gestalt}.
     
-    \section{Segmentación}
+    Algunos otros trabajos mas elaborados proponen una segmentación que incluya la interacción con el objeto como en \cref{vis:schiebener2011segmentation}, en este trabajo se hacían hipótesis de los objetos, se interactuaba y se actu..alizaban las hipótesis, una de las ventajas es que no se requiere de conocimiento previo.
     
-    \section{Algoritmos}
+    Otro acercamiento es tener una amplia base de datos para poder siempre poder identificar los objetos visto, existe una gran cantidad de trabajos en esta rama, un ejemplo es \cref{vis:grady2012automatic}, en la que usan superpixeles para facilitar la segmentación, deciden los candidatos separándolos y luego identifican los objetos usando un modulo propuesto por ellos que ha sido entrenado con una gran cantidad de objetos, en otros trabajos se usan redes neuronales o comparación de puntos de interés de las imágenes en pirámides.
     
-    \section{Implementación}
+    Por ultimo podemos destacar el uso de aproximaciones a primitivas en \ref{labellist}, donde se tiene una segmentación en un espacio no estructurado.
     
-    \section{Resultados}
+    %once segmentation is made and we get some region proprieties, we look for the \textit{Gripper} in the image and the we look for the object, a first approach has been used but it is expected to improve in the future. After we find the objects in the image, we save some data about them, as current position, so that the second iteration can be made faster, segmenting just the part where the object is, this was chosen instead of using one initial image to do the control, because we would like to expect the object to be moving slowly.\\
+    %Once we reach the object we start closing the \textit{Gripper} with the FREN control and the force sensor until we star having response form the force sensor, then we adjust the force to be the minimum possible.\\
     
-    \section{Conclusiones}
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    \section{Introducción}
-
-Para las aplicaciones de visión se necesita tener en cuenta el sistema en el que se estará usando y las condiciones, por esas razones se necesita tener en cuenta las consideraciones que se hicieron en el capitulo \ref{intro}. Normalmente se toman varias consideraciones cuando se buscan objetos, y se requiere información acerca de este, pero esto no es posible cuando se busca un nuevo objeto.
-
-Uno de los métodos usados es el de la simetría, un ejemplo es \cite{vis:kootstra2010fast}, en el que se usa un método llamado "\ Automatic Detection And Segmentation (ADAS)", en el que se usan superpixeles para facilitar el reconocimiento de la simetría, la cual es una de las bases para la percepción de objetos en la psicología \textit{Gestalt}.
-
-Algunos otros trabajos mas elaborados proponen una segmentación que incluya la interacción con el objeto como en \cref{vis:schiebener2011segmentation}, en este trabajo se hacían hipótesis de los objetos, se interactuaba y se actu..alizaban las hipótesis, una de las ventajas es que no se requiere de conocimiento previo.
-
-Otro acercamiento es tener una amplia base de datos para poder siempre poder identificar los objetos visto, existe una gran cantidad de trabajos en esta rama, un ejemplo es \cref{vis:grady2012automatic}, en la que usan superpixeles para facilitar la segmentación, deciden los candidatos separándolos y luego identifican los objetos usando un modulo propuesto por ellos que ha sido entrenado con una gran cantidad de objetos, en otros trabajos se usan redes neuronales o comparación de puntos de interés de las imágenes en pirámides.
-
-Por ultimo podemos destacar el uso de aproximaciones a primitivas en \ref{labellist}, donde se tiene una segmentación en un espacio no estructurado.
-
- %once segmentation is made and we get some region proprieties, we look for the \textit{Gripper} in the image and the we look for the object, a first approach has been used but it is expected to improve in the future. After we find the objects in the image, we save some data about them, as current position, so that the second iteration can be made faster, segmenting just the part where the object is, this was chosen instead of using one initial image to do the control, because we would like to expect the object to be moving slowly.\\
- %Once we reach the object we start closing the \textit{Gripper} with the FREN control and the force sensor until we star having response form the force sensor, then we adjust the force to be the minimum possible.\\
-    
-La información que se conseguirá de este sistema de visión es la posición del objeto con respecto a las coordenadas del robot (X.Y,Z).\\
-La cámara RGBD conseguirá la imagen de profundidad, la cual puede ser pasada a coordenadas del mundo con la función incluida en el programa envolvente \cref{MATLABwrapper}, el resultado es una imagen en coordenadas (X,Y,Z) en milímetros, entonces se realiza la rotación desde coordenadas de la cámara a coordenadas del robot, una vez conseguida esta imagen se eliminara cualquier elemento que este fuera del área de trabajo del robot, en caso de cumplirse las consideraciones del  capitulo \ref{intro}, esto debe ser suficiente para tener el objeto segmentado, pero en caso de que existan problemas se incluye una segmentación extra usando \textit{Sobel}.
-Una vez segmentados los objetos se consigue su centroide usando el algoritmo en la figura \ref{alg2}, dando por concluido la parte de visión.
+    La información que se conseguirá de este sistema de visión es la posición del objeto con respecto a las coordenadas del robot (X.Y,Z).\\
+    La cámara RGBD conseguirá la imagen de profundidad, la cual puede ser pasada a coordenadas del mundo con la función incluida en el programa envolvente \cref{MATLABwrapper}, el resultado es una imagen en coordenadas (X,Y,Z) en milímetros, entonces se realiza la rotación desde coordenadas de la cámara a coordenadas del robot, una vez conseguida esta imagen se eliminara cualquier elemento que este fuera del área de trabajo del robot, en caso de cumplirse las consideraciones del  capitulo \ref{intro}, esto debe ser suficiente para tener el objeto segmentado, pero en caso de que existan problemas se incluye una segmentación extra usando \textit{Sobel}.
+    Una vez segmentados los objetos se consigue su centroide usando el algoritmo en la figura \ref{alg2}, dando por concluido la parte de visión.
     
     
     \section{Conceptos básicos de visión}
     
-La visión artificial o visión por computadora es una rama de la inteligencia artificial que se encarga del procesamiento de imágenes con el fin de interpretarla.
-Las visión artificial esta dividida en 7 etapas, de las cuales se hablara un poco acerca de las primeras 4.
+    La visión artificial o visión por computadora es una rama de la inteligencia artificial que se encarga del procesamiento de imágenes con el fin de interpretarla.
+    Las visión artificial esta dividida en 7 etapas, de las cuales se hablara un poco acerca de las primeras 4.
     
     \begin{prop}[Etapas de la Visión Artificial]
     	\item  Adquisición de la imagen. \label{viseta:1}
     	\item  Pre-procesamiento. \label{viseta:2}
-		\item  Detección de bordes. \label{viseta:3}
-		\item  Segmentación. \label{viseta:4}
-		\item  Extracción de características. \label{viseta:5}
-		\item  Reconocimiento y localización de objetos. \label{viseta:6}
-		\item  Interpretación de la escena. \label{viseta:7}
-	\end{prop} 
+    	\item  Detección de bordes. \label{viseta:3}
+    	\item  Segmentación. \label{viseta:4}
+    	\item  Extracción de características. \label{viseta:5}
+    	\item  Reconocimiento y localización de objetos. \label{viseta:6}
+    	\item  Interpretación de la escena. \label{viseta:7}
+    \end{prop} 
     
     
-    Las cámaras fotográficas son el dispositivo mas común para conseguir imágenes, pero no necesariamente el único, ya que los mismos conceptos se pueden aplicar al procesamiento de otros tipos de imágenes.
+    Las cámaras fotográficas son el dispositivo mas común para conseguir imágenes, pero no necesariamente el único, ya que los mismos conceptos se pueden aplicar al procesamiento de otros tipos de imágenes.\\
     Las cámaras normalmente se basan en la teoría de la cámara obscura o cámara estenopeica, la cámara obscura es un instrumento que consiste en una cuarto (o cámara) obscuro con una pequeña entrada de luz que proyecta la imagen hacia dentro de la cámara , las cámaras siguen usando el mismo principio hoy en día utilizando sensores fotosensibles para captar la imagen. El modelo en que se basan es llamado modelo \textit{"Pinhole"} (agujero de alfiler) debido a que el funcionamiento requiere un agujero pequeño ya que del tamaño de este depende la claridad de la imagen, otra característica de este modelo es que la imagen proyectada aparece rotada tal como se ve en la \cref{fig:pinhole}, pero la característica mas importante es el hecho en si de que; lo que se consigue son proyecciones, por lo que se puede deducir dada una imagen su proyección dentro de la cámara, pero resulta difícil el caso contrario al perderse la profundidad durante la proyección. Las cámaras de profundidad son un tipo especial de cámara que es capaz de registrar la distancia desde la cámara hasta los objetos, estas funcionan de manera similar a las cámaras de color, con la diferencia de que se necesita proyectar luz  infrarroja, esta luz es captada por el sensor de la cámara de profundidad de la misma manera que una cámara convencional lo hace con la luz normal, guardando la información dentro de una imagen con las distancias desde la cámara como referencia.
     
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.7\linewidth]{visio/visio3/pinhole}
-	\caption{representacion de la proyeccion en el modelo \textit{Pinhole}}
-	\label{fig:pinhole}
-\end{figure}
-     
+    \begin{figure}[h]
+    	\centering
+    	\includegraphics[width=0.7\linewidth]{visio/visio3/pinhole}
+    	\caption{representacion de la proyeccion en el modelo \textit{Pinhole}}
+    	\label{fig:pinhole}
+    \end{figure}
+    
     Las cámaras proveen una imagen digital, esta imagen digital es una combinación de varias matrices de datos donde cada elemento se llama pixel es la y cada valor esta contenido en un byte los valores de estos van desde 0 hasta 255, que son los valores que se pueden conseguir con un byte (los bytes son un conjunto de 8 bits, cada bit puede tener los valores de 0 y 1, pero al juntar varios pueden tener valores de $2^n$ donde \textbf{n} es el numero de bits).
     
-    Una vez conseguida la imagen es siguiente paso es el pre-procesamiento de las imágenes que es un tratamiento previo que se le da a las imágenes para facilitar su uso posterior, los mas comunes entre estos procesos son los de mejorar el contraste, suavizado, afilado, eliminar ruido. Existen filtros en el dominio del espacio y de la frecuencia, siendo los filtros en el dominio del espacio los mas comunes por su simplicidad. Uno de los filtros mas comunes es la mejora de contraste usando histogramas para repartir mejor las intensidades de los píxeles. Otro tipo de filtros son los que se basan en el uso barrido llamado convolución que recorre una imagen en blanco y negro usando una matriz llamada mascara de convolución dependiendo del tratamiento deseado. Esta operación toma un pixel como el actual, y usa los píxeles que le rodean asignándoles unos pesos que se encuentran en la mascara, entre las aplicaciones se encuentran; filtro paso bajo (suavizado), filtro paso alto (atenuación), realce y detección de bordes por distintos medios. %desplazamiento y diferencia, Realce de bordes mediante Laplace, Resalte de bordes con gradiente direccional, Detección de bordes y filtros de contorno (Prewitt y Sobel).
+    Una vez conseguida la imagen es siguiente paso es el pre-procesamiento de las imágenes que es un tratamiento previo que se le da a las imágenes para facilitar su uso posterior, los mas comunes entre estos procesos son los de mejorar el contraste, suavizado, afilado, eliminar ruido. Existen filtros en el dominio del espacio y de la frecuencia, siendo los filtros en el dominio del espacio los mas comunes por su simplicidad. Uno de los filtros mas comunes es la mejora de contraste usando histogramas para repartir mejor las intensidades de los píxeles. Otro tipo de filtros son los que se basan en el uso barrido llamado convolución que recorre una imagen en blanco y negro usando una matriz llamada mascara de convolución dependiendo del tratamiento deseado. Esta operación toma un pixel como el actual, y usa los píxeles que le rodean asignándoles unos pesos que se encuentran en la mascara, entre las aplicaciones se encuentran; filtro paso bajo (suavizado), filtro paso alto (atenuación), realce y detección de bordes por distintos medios.
+    %desplazamiento y diferencia, Realce de bordes mediante Laplace, Resalte de bordes con gradiente direccional, Detección de bordes y filtros de contorno (Prewitt y Sobel).
     
     Ya conseguidos los bordes lo siguiente es la segmentación del objeto, la segmentación trata de clasificar a los píxeles como pertenecientes a un grupo o segmento de píxeles.
+    
+    \section{Camara RGB-d}
+    
+    Las camaras RGB-d, como ya se habia mencionado, son camaras con....
+    
+    
+    Esta cámara trabaja con Openni que es la librería en c++, esta librería tiene funciones para usar la cámara y hacer ciertas operaciones, 
+    
+    al principio se pensaba usar la imagen de rango del sensor de profundidad, que es la distancia desde el sensor hasta el punto censado, esto se pudo evitar gracias a las funciones integradas en Openni.
+    
+    MATLAB, en ninguna de sus versiones tiene soporte oficial para las cámaras ASUS, aunque si tiene soporte para nuevos dispositivos, pero existe el programa envolvente entre \textbf{MATLAB} y Openni.
+    el problema con este programa es que requiere de unas condiciones muy especificas para poder ser instalado. entre esas condiciones esta
+    
+    -usar \textbf{MATLAB} 2010
+    -compilar con \textbf{Microsoft visual Studio} 2010
+    
+    
+    una vez instalado se puede usar en otras versiones de \textbf{MATLAB}, en este caso se uso en la versión 2015
+    
+    
+    \section{Segmentación}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -133,7 +140,7 @@ Las visión artificial esta dividida en 7 etapas, de las cuales se hablara un po
     		
     		\STATE $XYZ2 \leftarrow sobel(XYZ$);\\
     		$C \leftarrow mean(XYZ(XYZ2\neq0)$);\\
-    		\STATE $ex \leftarrow XYZ-C[1]$\\
+    		\STATE $ex \leftarrow XYZ{1}-C[1]$\\
     		$dz\leftarrow max(y(ex<5))$\\					
     		$X_d \leftarrow \{C[1], C[2], dz\}$
     	\end{algorithmic}
@@ -146,9 +153,24 @@ Las visión artificial esta dividida en 7 etapas, de las cuales se hablara un po
 
     Dado el diseño mecánico del robot se busca la apertura del \textit{Gripper} la cual es la distancia en el eje $X$ del objeto. para lo cual se resta a la imagen del objeto segmentado el valor del centroide, después se toman los valores que sean mas cercanos a cero (que en este caso sera los cercanos al centroide), y  se consiguen los valores máximos en esos lugares, para los valores de la altura,  esto nos da la altura máxima del área donde se posicionara el \textit{Gripper}, este valor, en junto con los valores del centroide conforman la posición deseada a la que llegara el \textit{Gripper}.
     
+    \section{Implementación}
+    
+    Para la implementacion de estos algoritmos se requierio hacer algunas modificaciones en la forma en la que se calculaban, ambos algoritmos para hacerlos mas eficientes.
+    
+    En nuestro caso estamos utilizando \textit{Matlab} por lo que las operaciones con matrices son mas eficientes que realizar operaciones normales de manera iterativa, por eso mismo se implementaron los algoritmos que se tenian de forma conceptual a realizar el mayor numero de operaciones con matrices. 
+    
+    El cambio que se tiene en el primer algritmo con respecto a su forma conceptual es que la operacion que se lleva a cabo es una multiplicacion de las coordenadas XYZ por la matriz de rotacion $R_{XYZ}$, esto se puede hacer en una sola operacion si se realizara un cambio de forma (\textit{Reshape}) a la matriz y se juntaran todos los elementos en una sola matriz, asi en vez de tener un arreglo de 3 dimenciones n*m*3, donde n representa el numero de filas m el numero de columnas y 3 los canales de XYZ, se puede modificar para tener una matriz de (n*m)*3, lo que seria lo mismo que cambiar la forma de cada matriz por un vector columna de $1\times(n*m)$ y concatenarlo con las otras 2 columnas. esto permitiria realizar la multiplicacion una vez en lugar de realizar la multiplicacion iterativamente (n*m) veces.   
+    
+    En cuanto a la segunda parte del codigo, el chequeo de si esas coordenadas se encuentra dentro del espacio de trabajo del robot se realiza con operaciones logicas, las cuales en \textit{Matlab} estan abilitadas para ser usadas en matrices. por lo que se busca que cada elemento que sea menor o mayor (en otras palabras que este fuera del  rango permitido), sea eliminado dandole un valor de nan (not a number), esto se hace ya que no se puede eliminar por completo los espacios que se estan usando, esto porque el operador \textit{sobel} requiere esa informacion, al reemplazarlos valores por nan, estos seran ignorados en las operaciones posteriores, ya que sus valores permaneceran como nan, en cambio si se reemplazaran por ceros, traeria problemas, ya que se podrian usar en operaciones matematicas, cambiando con esto la tendencia de los datos.
+    
+    Ahora en cuanto al segundo algoritmo, se realiza la operacion \textit{Sobel} a cada una de las dimenciones X,Y,Z. el resultado de esto son las diferencias mas representativas en las distancias de un punto a otro, para esto es necesario que el coeficiente del \textit{Sobel} sea pequeno, en caso de no serlo se perderia resolucion, se tendrian tramos demaciado grandes sin informacion. Esto deberia resultar en un arreglo de 3 matrices con los resultados del \textit{Sobel} a los cuales se sacara la media, esta es una operacion comun y corriente, pero al haber valores nan, esos valores seran excluidos, lo que permitira tener una media de solo los valores que nos interesan y esta representara el centroide del objeto.
+    
+    por ultimo la manera en la que se tiene esperado tomar el objeto es por la parte de arriba, esto por las limitaciones de la plataforma de pruevas, por lo tanto lo unico que se tiene que hacer es elegir una altura a la cual se deba posicionar el \textit{Gripper}, ya se habia comentado con anterioridad que se tomaria el punto mas alto de la region que sea cubierta por el \textit{Gripper} cuendo este se encuetre por sobre del objeto. 
+    
+    El codigo de vision puede ser encontrado en el apendice \ref{visioncode} y los resultados pueden verse en \cref{fig1}.
     
     \section{Resultados}
-    A continuación se presentan algunos de los resultados de el algoritmo, en la figura \ref{vaso}, se puede observar el mallado de la resultado del primer algoritmo, lo cual también corresponde a la figura\ref{vas}.
+    A continuación se presentan algunos de los resultados de el algoritmo, en la figura  \ref{vaso}, se puede observar el mallado de la resultado del primer algoritmo, lo cual también corresponde a la figura\ref{vas}.
     en \ref{dix,diy,diz} se puede observar el \textit{Sobel} realizado sobre la figura \ref{vas}.
     
     \begin{figure}[h]
@@ -185,19 +207,11 @@ Las visión artificial esta dividida en 7 etapas, de las cuales se hablara un po
     Estos algoritmos fueron pensados para situaciones muy idealistas, en las que las consideraciones en el capitulo \ref{intro} se cumplen por lo cual no son realmente robustas ante otras condiciones. Una de las características que se esperaba tener de estos algoritmos es alta velocidad para poder implementarse en tiempo real, esta es la principal razón para que sean tan sencillos, aunque en la practica se tenia equipo que no era capaz de usar el programa a la velocidad requerida, se pudo comprobar en en un equipo externo, que el algoritmo tenia la velocidad esperada.
     
         
-    Algunos cambios fueron hechos para la implementación en MATLAB de dichos algoritmos, uno de los cambios mas importantes fue la rotación de la imagen del marco de la cámara al marco del robot, lo cual se no podía hacerse de la misma manera en la que fue descrito, en lugar de hacer la rotación con un ciclo iterativo, se realizo un reacomodo de la matriz de la imagen con la función \textit{reshape} haciendo que cada matriz de (x,y,z) se convirtiera en un vector de $n\times m$, se concatenaron estos vectores en una matriz de $3\times(n\times m)$ pudendo realizarse la multiplicación por una matriz de rotación de $3\times 3$ lo que ahorra mucho tiempo, al final se regresa a la forma original de la matriz para poder usarse en el resto del código.
+    %Algunos cambios fueron hechos para la implementación en MATLAB de dichos algoritmos, uno de los cambios mas importantes fue la rotación de la imagen del marco de la cámara al marco del robot, lo cual se no podía hacerse de la misma manera en la que fue descrito, en lugar de hacer la rotación con un ciclo iterativo, se realizo un reacomodo de la matriz de la imagen con la función \textit{reshape} haciendo que cada matriz de (x,y,z) se convirtiera en un vector de $n\times m$, se concatenaron estos vectores en una matriz de $3\times(n\times m)$ pudendo realizarse la multiplicación por una matriz de rotación de $3\times 3$ lo que ahorra mucho tiempo, al final se regresa a la forma original de la matriz para poder usarse en el resto del código.
     
     En otros experimentos realizados se pudo observar que la cámara no reacciona bien ante objetos reflejantes, y que al algoritmo 2 no es suficientemente robusto a objetos que tengan su centroide  fuera del cuerpo.
     
     %Some of the limitations of this approach are that it cannot function with reflective objects (or any other that can't be visible to the kinnect kind sensor), and that the working area is flat and its dimensions are previously known, which might present difficulties when working on a real unknown and unstructured environment.
     
-    \section{Trabajo futuro}
-    
-    la siguiente sección fue presenta ideas para compensar algunas de las desventajas que se tienen en el sistema actual de visión, el cual, como ya se comento, no esta trabajando en linea.
-    
-    \subsection{Algoritmo  3}
-    
-    La primer idea es identificar por medio de ambas cámaras, tanto a de color como la de profundidad, al objeto, y después conseguir con el Alg. \ref{alg2} el centroide y seguirlo con las características conseguidas con la cámara de color, sin seguir usando la cámara de profundidad, aplicando esto al objeto y al \textit{Gripper}, se esperaría tener un algoritmo propiamente de servo-visión.
-    
-    Otro de los inconvenientes presentados es la necesidad de calibrar, o conocer los ángulos y las distancias que se tienen de la cámara al marco del robot, esto se pretende abordar teniendo el modelo 3D del \textit{Gripper}, una vez que se tenga este modelo se puede calcular las orientaciones entre el robot y la cámara, y con la medición de los sensores del robot, se tendría la posición actual del \textit{Gripper}, por lo que debería ser posible conseguir la distancia del robot a la cámara.
+
     

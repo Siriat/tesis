@@ -8,3 +8,25 @@
 \section{Control}
 
 \section{Trabajo Futuro}
+
+
+la siguiente sección fue presenta ideas para compensar algunas de las desventajas que se tienen en el sistema actual de visión, el cual, como ya se comento, no esta trabajando en linea.
+
+\subsection{Algoritmo  3}
+
+La primer idea es identificar por medio de ambas cámaras, tanto a de color como la de profundidad, al objeto, y después conseguir con el Alg. \ref{alg2} el centroide y seguirlo con las características conseguidas con la cámara de color, sin seguir usando la cámara de profundidad, aplicando esto al objeto y al \textit{Gripper}, se esperaría tener un algoritmo propiamente de servo-visión.
+
+Otro de los inconvenientes presentados es la necesidad de calibrar, o conocer los ángulos y las distancias que se tienen de la cámara al marco del robot, esto se pretende abordar teniendo el modelo 3D del \textit{Gripper}, una vez que se tenga este modelo se puede calcular las orientaciones entre el robot y la cámara, y con la medición de los sensores del robot, se tendría la posición actual del \textit{Gripper}, por lo que debería ser posible conseguir la distancia del robot a la cámara.
+
+
+
+
+
+
+\section{22222}
+
+El mayor inconveniente de este acercamiento al problema de sujeción es que se necesitaría que fuese supervisado, lo cual va en contra de los objetivos deseados, como continuación se desea tener una base de datos que contenga los valores para una gran variedad de objetos.
+
+
+Con respecto al hecho de conseguir el centroide con la cámara, esto no garantiza que corresponda con el centro de masas del objeto, la propuesta para este problema es calcularlo con el sensor de fuerza disponible, el cual es capaz de conseguir el \textit{Wrench}, teniendo 2 sensores de este tipo, en caso de que el centro de masas este en el centroide del objeto, ambos censores deberían tener mediciones iguales, pero en caso de que no sea este el caso los sensores deberían mostrar discrepancias en las mediciones y en base a estas debería poder calcularse el valor real del cetro de masas, lo que ayudaría conseguir información adicional acerca del objeto.
+Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hecho de tener una realimentación por parte de un sensor que mida el deslizamiento de la pieza, en este caso, es imposible de hacerse con la cámara, y los sensores de \textit{Wrench}, no son capaces de medirlo. En algunos trabajos ha sido reportado que el deslizamiento puede ser medido como un tipo de ruido por vibraciones debido a la rugosidad de las superficies rozándose, por lo que se podría tener también un indicador de la rugosidad entre el \textit{Gripper} y el objeto, por desgracia los sensores que se tienen, no son capaces de distinguir este ruido, esto sumado a que, en algunas áreas de la trayectoria, el mismo robot presenta una gran cantidad de vibraciones, para conseguir la medición de deslizamiento se pretende usar una matriz de resistencias que se tendrán en los dedos del \textit{Gripper}, esta matriz mostrara variaciones de voltaje dependiendo de la fuerza con la que se sujete la pieza, siempre y cuando exista el contacto entre ambos, con esto se puede crear una imagen de presión, de la cual se puede conseguir un centroide, este representaría el punto de contacto principal, en caso que existir un área de contacto. 

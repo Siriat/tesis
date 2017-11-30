@@ -7,7 +7,7 @@ A continuación se explicara de manera básica la manera de realizar una rotaci�
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{visio/visio3/cuerporigido}
-	\caption{}
+	\caption{Representacion de un Cuerpo Rigido}
 	\label{fig:cuerporigido}
 \end{figure}
 
@@ -21,20 +21,20 @@ $R_x(\theta)=\begin{bmatrix}
 1	& 0 &0  \\ 
 0	&  cos(\theta)& -sin(\theta) \\ 
 0	& sin(\theta) & cos(\theta) 
-\end{bmatrix}\\
+\end{bmatrix}$\\
 
-R_y(\theta)=\begin{bmatrix}
+$R_y(\theta)=\begin{bmatrix}
 	cos(\theta)	& 0 & sin(\theta)  \\ 
 	0	&  1 & 0 \\ 
 	-sin(\theta)	& 0 & cos(\theta) 
-\end{bmatrix}\\
+\end{bmatrix}$\\
 
-R_z(\theta)=\begin{bmatrix}
+$R_z(\theta)=\begin{bmatrix}
 	cos(\theta)	& -sin(\theta) &0  \\ 
 	sin(\theta)	&  cos(\theta)& 0 \\ 
 	0	&  & 1 
-\end{bmatrix}\\
-$
+\end{bmatrix}$\\
+
 Desde estas rotaciones se define la rotación general como $R_{xyz}(\psi,\theta,\phi)=R_x(\psi)R_y(\theta)R_z(\phi)$, esto se puede pensar como una serie de rotaciones
 \begin{equation}\label{rotation}
 {\small R_{xyz}(\theta)=\begin{bmatrix}
@@ -109,7 +109,7 @@ Básicamente el control difuso convierte datos numéricos a valores difusos, est
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{visio/visio3/logicadifusa}
-	\caption{}
+	\caption{Estructura General de Control Difuso}
 	\label{fig:logicadifusa}
 \end{figure}
 
@@ -128,7 +128,7 @@ Las redes neuronales son una rama de la inteligencia artificial que imita el com
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=.9\linewidth]{visio/visio3/neurona}
-	\caption{}
+	\caption{Estructura basica de una neurona}
 	\label{fig:neurona}
 \end{figure}
 La función de salida se puede condensar como y=G(z), donde $ z=\sum(in_1 W_1 + in_2 W_2 + in_3 W_3)$, note que esta operación puede ser simplificada como el producto punto del vector de entradas y el vector de pesos, y en cuanto a la función G(), esta es elegida por el usuario, la mas comun es una linea o una sigmoide, pero pueden usarse otras como una gausiana. Los valores de los pesos son inicializados en ceros y van cambiando conforme se tenga entrenamiento.
@@ -141,7 +141,7 @@ Se presenta el diseño de uno de los dedos del \textit{gripper}.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=1\linewidth]{visio/visio3/finger4}
-	\caption{}
+	\caption{Planos de los dedos del \textit{Gripper}}
 	\label{fig:finger4}
 \end{figure}
 
