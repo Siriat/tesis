@@ -116,21 +116,21 @@
     La primera función es la creación de una estructura donde se guardaran los datos del FREN, como son las funciones de pertenencia y el vector de pesos ($\beta$), los valores de entrada a esta función son; 
    
    \begin{itemize}
-   	\item class: es la classe de FREN, si es de una entrada o de múltiples entradas
-   	\item type: se refiere al tipo de funcion que se usara para la funcion de pertenencia.
-   	\item center: esta variabe es un vector que representa el centro de las funciones de pertenencia, se espera que este este ordenado de menor a mayor y que los vectores posteriores esten ordenados de manera que correspondiente con este.
-   	\item base: es un vector con el ancho de las bases de la funcion de pertenencia, para los elementos de los extremos, el lado mas alejado de cero es 1.
-   	\item betas: es un vector con los pesos para cada funcion de pertenencia, que aparece en \cref{betav}
-   	\item y: esta representa la variable $Y_p$, que es la relacion entre la entrada de control y la salida del sistema.
+   	\item class: es la clase de FREN, si es de una entrada o de múltiples entradas
+   	\item type: se refiere al tipo de función que se usara para la función de pertenencia.
+   	\item center: esta variable es un vector que representa el centro de las funciones de pertenencia, se espera que este este ordenado de menor a mayor y que los vectores posteriores estén ordenados de manera que correspondiente con este.
+   	\item base: es un vector con el ancho de las bases de la función de pertenencia, para los elementos de los extremos, el lado mas alejado de cero es 1.
+   	\item betas: es un vector con los pesos para cada función de pertenencia, que aparece en \cref{betav}
+   	\item y: esta representa la variable $Y_p$, que es la relación entre la entrada de control y la salida del sistema.
    	\item eta: esta variable es la constante de aprendizaje que se usa para modificar los pesos ($\beta$)
    \end{itemize}
    
    Esta función \textit{Shipconstruction}, crea una estructura donde se guardan los valores de entrada y genera las funciones de pertenencia acorde a los datos de entrada y el tipo de función, primero se crea la función que esta en la primer posición del vector, el cual es el mas negativo, después las simétricas usando un ciclo \textit{for} y al final la mas positiva, estas funciones creadas se guardan en un arreglo, y pueden ser evaluadas desde fuera de la estructura con la ruta.
    
    
-   La segunda funcion es la que hace la evaluacion de los datos, esta es una funcion externa a la estructura, pero podria integrarse en la estructura FREN, lo principal es realizar la multiplicacio, asi que se evaluan las funciones con el valor de entrada al FREN, se guardan los resultados de esta evaluacion en un vector con la pertenencia a cada funcion (\cref{eqmu}), y se realiza el producto punto con el vector de pesos ($\beta$) siendo el resultado la salida de esta funcion y la otra salida es el vector de pertenencia que sera usado para la tercer funcion.
+   La segunda función es la que hace la evaluación de los datos, esta es una función externa a la estructura, pero podría integrarse en la estructura FREN, lo principal es realizar la multiplicación, así que se evalúan las funciones con el valor de entrada al FREN, se guardan los resultados de esta evaluación en un vector con la pertenencia a cada función (\cref{eqmu}), y se realiza el producto punto con el vector de pesos ($\beta$) siendo el resultado la salida de esta función y la otra salida es el vector de pertenencia que sera usado para la tercer función.
    
-   La tercera funcion es la que se encarga de hacer la actualizacion de los pesos, usa el error, por lo que se tiene que hacer una medicion antes de usarse, siendo que los valores del error, la constante de aprendizaje y la constante del sistema son escalares, simplemente se pondera el vector de pertencias conestos valores y se suma al vector de $\beta$ actual.
+   La tercera función es la que se encarga de hacer la actualización de los pesos, usa el error, por lo que se tiene que hacer una medición antes de usarse, siendo que los valores del error, la constante de aprendizaje y la constante del sistema son escalares, simplemente se pondera el vector de pertenencias con estos valores y se suma al vector de $\beta$ actual.
    
    El codigo puede ser encontrado en \cref{FRENcode}  
    

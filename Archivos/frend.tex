@@ -1,6 +1,6 @@
     \chapter{Decisión de fuerza para el \textit{Griper}}
     \section{Introducción}
-    La decisión de la fuerza que se usara esta a cargo de un control FREN sin realimentación de estado, en si es un control FREN fuera de linea, la estructura que se desea usar puede ser obser vada en la imagen \ref{fig:mfren2}, a diferencia de la estructura usada para el control, en este caso se tienen 3 entradas. %, por lo que existen ciertas diferencias, por lo que se explicara desde el principio para poder entenderlo.
+    La decisión de la fuerza que se usara esta a cargo de un control FREN sin realimentación de estado, en si es un control FREN fuera de linea, la estructura que se desea usar puede ser observada en la imagen \ref{fig:mfren2}, a diferencia de la estructura usada para el control, en este caso se tienen 3 entradas. %, por lo que existen ciertas diferencias, por lo que se explicara desde el principio para poder entenderlo.
     En este caso comenzaremos definiendo las entradas, estas entradas son dadas por el usuario por lo tanto se consideran como constantes, ya que no hay otra forma de conseguirlas, estas entradas son factores o indicadores que representan magnitudes según las entiende el usuario y son medidas en una escala del 0 al 1, donde 0 es un valor que no contribuye a que se aplique mas fuerza y 1 es un valor en el que se requiere que se aplique mas fuerza.
     
     \section{Mecánica de sujeción}
@@ -12,9 +12,17 @@
 
     \section{Comunicacion con el Gripper}
     
-	El gripper usado es el WSG50 y fue nesesario establecer una comunicacion con el bia matlab, para poder conservar la mayoria del codigo corriendo unicamente en \textit{matlab} porque el gripper solo tenia 2 formas de 
+	El \textit{Gripper} usado es el WSG50 y fue necesario establecer una comunicación con el vía \textit{Matlab}, para poder conservar la mayoría del código corriendo unicamente en \textit{Matlab} porque el \textit{Gripper} solo tenia 2 formas de 
     
     \section{FREN de múltiples entradas}
+    
+    \begin{figure}[h]
+    	\centering
+    	\includegraphics[width=0.7\linewidth]{visio/mfren2}
+    	\caption{Estructura de control MiFREN}
+    	\label{fig:mfren2}
+    \end{figure}
+    
     Cada una de estas entradas es convertida a valores difusos que corresponde con la ecuación \ref{eqmu}, con la diferencia de que esta estará no esta en función del error, solo para hacer distinción se definirá como:
     \begin{equation}
     \label{eqmmu}
@@ -41,7 +49,7 @@
     U(k)= \sum  \mu_{ai} \mu_{bj} \mu_{ck} \beta_{ijk}  ,
     \end{equation}
     
-     En este caso resulta imposible usar el producto punto pero, en el caso de 2 entradas se puede realizar una multiplicacion matricial, con solo cambiar arreglar los valores de beta como una matriz, el resultado de esto seria \begin{equation}
+     En este caso resulta imposible usar el producto punto pero, en el caso de 2 entradas se puede realizar una multiplicación matricial, con solo cambiar arreglar los valores de beta como una matriz, el resultado de esto seria \begin{equation}
      \label{multu}
      U(k)= \mu_{a}^{T} \beta_{ij} \mu_{b} ,
      \end{equation}  donde $\beta_{ij}$ es una matriz de dimensiones $(r_1 \times r_2)$, que para este ejemplo de 2 entradas seria:
@@ -68,12 +76,6 @@
     Por ultimo, hace falta comentar que esta es una decisión que al no depender de valores de error, no tiene una fase de aprendizaje, por lo que los valores de la tabla serán los que se usen.
    
     
-    \begin{figure}[h]
-    	\centering
-    	\includegraphics[width=0.6\linewidth]{visio/mfren2}
-    	\caption{Estructura de control MiFREN}
-    	\label{fig:mfren2}
-    \end{figure}
     
     
     

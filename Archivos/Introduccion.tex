@@ -1,33 +1,79 @@
 \chapter{Introducción}\label{intro}
 
+debido a la automatización se necesita tener menos personas
+
+pero a causa de esto se tiene el problema de la supervision
+
+a medida que la producción aumenta se necesita que la producción sea mas rápida y especifica,
+
+por alguna u otra razón es posible encontrar objetos desconocidos dentro de la linea de producción , estos podrían dañar algunas de las maquinas
+
+%caso general
+El daño por objetos externos es conocido como FOD  por sus siglas en ingles, (\textit{Foreing object Damage}), aunque es mas conocido en aviación, no se limita solo a eso, lo mas comen es que sean las turbinas las que sean afectadas, pero en una linea de producción donde se espera algún objeto blando para ser procesado o algún tubo por el que se necesita pasar 
+
+esto podría traer consecuencias como la mala calidad del producto, danos a la maquinaria o danos a la salud de los consumidores,
+
+En el caso de la industria alimenticia, es incluso pero a que existen casos en los que objetos ajenos son encontrados dentro de la comida y esto daña la imagen de las empresas y trae consecuencias legales contra la misma.
+
+Existe una infinita variedad de FOD, pero los que mas se repiten son los causados por mantenimiento, en que una pequeña pieza llega a caer durante un mantenimiento, al ser tan pequeñas es probable que no sea notada,
+
+Algunnas de las recomendaciones para evitar el FOD 
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{../../../FOD-on-circuit-board}
+%	\caption{Ejemplos de FOD dentro de un circuito}
+%	\label{fig:fod-on-circuit-board}
+%\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../ad_193881805}
+	\caption{Ejemplos de FOD en la industria alimenticia.
+		Recuperado de http://metro.co.uk/2016/01/21/what-should-i-do-if-i-find-a-foreign-object-in-my-food-dont-take-it-back-to-the-shop-5636379/}
+	\label{fig:ad193881805}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../imgfod_tb_01}
+	\caption{FOD encontrado durante una inspección en un Aeropuerto}
+	\label{fig:imgfodtb01}
+\end{figure}
+%Apellido, Inicial. (año). Título del trabajo [Tipo]. Recuperado de http://www.www.www.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../schaufelrad1a}
+	\caption{ Recuperado de http://www.www.www.http://www.behrhellaservice.com/behr-hella-service/en/Mechanical-turbocharger-damage-5199.html}
+	\label{fig:schaufelrad1a}
+\end{figure}
+
+ 
 \section{Definición del Problema}
 
+Prevenir los danos causados por objetos externos en una linea de produccion de una fabrica, 
 
+%La motivación de este trabajo son
+aquellas situaciones en las que algún objeto desconocido pueda necesitar ser  sujetado en un entorno semi-estructurado, lo que significa que se conocen algunas de las características de este,
 
 \section{Motivación}
-La motivación de este trabajo son aquellas situaciones en las que algún objeto desconocido pueda necesitar ser  sujetado en un entorno semi-estructurado, lo que significa que se conocen algunas de las características de este,
+
+
 
 \section{Objetivos}
 
 \subsection{Objetivo General}
 
-El objetivo principal de la tesis es realizar una sujeción de un objeto objeto desconocido con un robot cartesiano
+El objetivo principal de la tesis es realizar una sujeción de un objeto objeto desconocido con un robot cartesiano, de la forma mas rapida posible.
 
-\subsection{Objetivo Especifico}
+\subsection{Objetivos Especificos}
 \begin{itemize}
 	 
+\item Usar vision artificial para encontrar la ubicacion del objeto
 
-\item Conectar la cámara y el \textit{Gripper} a \textit{Matlab} para poder escribir el resto del código en esta plataforma de programación, esto para agilizar el desarrollo.
 
-\item Hacer una rotación de las coordenadas de la imagen de profundidad, para alinear las coordenadas de la imagen con las coordenadas del robot, y así poder tener los objetos en coordenadas que el robot pueda seguir fácilmente.
+\item Mover el robot en la posicion 
 
-\item Segmentar el objeto usando información del espacio de trabajo y encontrar su centroide y altura, los cuales serán el punto a donde se dirija el \textit{Gripper}.
 
-\item Utilizar el control FREN para mover el robot.
+\item realizar la sujeccion del objeto a ser retirado
 
-\item Diseñar los dedos a ser usando junto con el sensor de fuerza, y comparar la utilidad del sensor de fuerza incluido en el \textit{Gripper}, contra el sensor de fuerza que 
-
-\item Realizar experimentos
 
 \end{itemize}
 %1.-Hacer una rotacion de las coordenadas de la imagen de profundidad, usando una matriz de rotacion en las coordenadas de la imagen para alinear las coordenadas de la imagen con las coordenadas del robot.
@@ -103,6 +149,18 @@ Como se muestra en \cref{fig:1}, el control para llegar al objeto se deja como u
 	\caption{Diagrama de control geneal}
 	\label{fig:diagrama1-eps-converted-to}
 \end{figure}
+\begin{itemize}
+
+\item Conectar la cámara y el \textit{Gripper} a \textit{Matlab} para poder escribir el resto del código en esta plataforma de programación, esto para agilizar el desarrollo.
+
+\item Hacer una rotación de las coordenadas de la imagen de profundidad, para alinear las coordenadas de la imagen con las coordenadas del robot, y así poder tener los objetos en coordenadas que el robot pueda seguir fácilmente.
+
+\item Segmentar el objeto usando información del espacio de trabajo y encontrar su centroide y altura, los cuales serán el punto a donde se dirija el \textit{Gripper}.
+
+\item Utilizar el control FREN para mover el robot.
+
+\item Diseñar los dedos a ser usando junto con el sensor de fuerza, y comparar la utilidad del sensor de fuerza incluido en el \textit{Gripper}, contra el sensor de fuerza que 
+\end{itemize}
 
 \section{Organización del documento}
 
