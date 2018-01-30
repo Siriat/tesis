@@ -12,7 +12,14 @@
 
     \section{Comunicacion con el Gripper}
     
-	El \textit{Gripper} usado es el WSG50 y fue necesario establecer una comunicación con el vía \textit{Matlab}, para poder conservar la mayoría del código corriendo unicamente en \textit{Matlab} porque el \textit{Gripper} solo tenia 2 formas de 
+	El \textit{Gripper} usado es el WSG50 y fue necesario establecer una comunicación con el vía \textit{Matlab}, para poder conservar la mayoría del código corriendo unicamente en \textit{Matlab}.
+	El \textit{Gripper} solo tenia 3 formas de comunicación, la primera era utilizando la interfaz proporcionada  por el vendedor, la segunda forma era na interfaz contenida dentro del mismo \textit{Gripper}, a esta se podía acceder mediante un navegador de Internet, la tercera era un complemento en \textit{Labview}, los primeros 2 son mas completos ya que no solo permite monitorizar al \textit{Gripper}, si no que también permite usar una gran cantidad de instrucciones, pero el problema con ellos es que no permite exportar los datos de la manera necesaria, en cambio la versión para \textit{Labview}, permite usar los datos leídos, pero solo están implementados los instrucciones mas básicos para su uso, ademas que la comunicación con \textit{Matlab} no seria directa.
+Se decidió tener todo integrado en \textit{Matlab}, para ahorrar recursos en la computadora.
+Una vez que se contacto al equipo de servicio al cliente, este nos hizo saber que no existía una interfaz con la cual comunicarse con \textit{Matlab}, pero se nos proporciono un ejemplo de como hacer la comunicación mandando paquetes de datos hacia el \textit{Gripper} y el manual de programación, donde están listados los instrucciones que puede reconocer el \textit{Gripper}, por lo general estos son usados dentro de un programa que corre por si solo en el \textit{Gripper}.
+La función creada esta conformada por una sección de envío de datos y una de recepción, cada una consiste de un \textit{Switch, Case}, en el se decide que paquete de datos se usara, este consiste de el inicio del paquete, el comando, la longitud del mensaje, las opciones y el mensaje(en caso de haberlo).
+
+El código resultante puede encontrarse en \cref{codewsg50}, solo las instrucciones básicas fueron agregadas, ya que existen unas funciones especiales que requieren equipo adicional o instrucciones que no eran necesarias durante las pruebas, ademas que se agregaron los mensajes de error, esto para ayudar a saber qe es lo que esta sucediendo.
+
     
     \section{FREN de múltiples entradas}
     
@@ -163,10 +170,12 @@
     	\bigskip
     	\\
     \end{table}
+\clearpage
 
 \section{Resultados}
-Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados,  pero por el hecho de conseguirse con el producto de vectores, la forma en la que crece es de $x^{in}$, esto es un inconveniente cuando se desea que los resultados sean mas lineales.
-
+Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados,  pero por el hecho de conseguirse con el producto de vectores, la forma en la que crece es de $x^{in}$, esto es un inconveniente cuando se desea que los resultados sean mas lineales, pero el hecho de simplificar el trabajo necesario es algo útil, ademas de ser un aumento suave en cada una de sus dimensiones, en \cref{fig:responce} se puede apreciar como la respuesta es suave, aunque por problemas de escala pueda parecer un poco confuso pero dentro de los limites establecidos se tiene la respuesta la cual aumenta suavemente.
+En la imagen se pueden ver pequeños valles y colinas, esto son causados por la forma cuadrática en la que crece la señal, pero no se expanden mucho ya que la señal fue hecha por una considerable cantidad de puntos, los puntos con los que fue creada esta seña son respetados y se ´puede llegar a ellos con  las mismas entradas, pero los puntos intermedios, al no ser especificados no se puede tener una mejor respuesta.
+cabe mencionar que uno de los pasos m,as importantes para conseguir una señal suave es el hecho de normalizar las funciones de pertenencia, en pasadas pruebas se tuvieron problemas, ya que en algunos momentos aumentaban o disminuían los valores, esto debido a la distribución de las funciones de pertenencia hacia aumentar o disminuir el valor de la suma, por lo que la normalización es necesaria.
 
 \begin{figure}[h]
 	\centering
@@ -175,27 +184,39 @@ Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados
 	\label{fig:responce}
 \end{figure}
 
+
+
+
+En las \cref{fig:force0},\cref{fig:force05} y \cref{fig:force1}, se puede ver la respuesta del control en 3 valores distintos, donde las áreas azules representan situaciones donde se debería usar menos fuerza al momento de cerrar el \textit{Gripper} y las rojas situaciones donde se debe usar la mayor fuerza, estando dentro de los valores acordados,
+
+
+
+
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[height=0.3\linewidth]{visio/visio/force05}
+	\includegraphics[height=0.25\linewidth]{visio/visio/force0}
+	\caption{Respuesta de MiFREN para FRA=0}
+	\label{fig:force05}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=0.25\linewidth]{visio/visio/force05}
 		\caption{Respuesta de MiFREN para FRA=0.5}
 	\label{fig:force0}
 \end{figure}
+
 \begin{figure}[h]
 	\centering
-	\includegraphics[height=0.3\linewidth]{visio/visio/force0}
-		\caption{Respuesta de MiFREN para FRA=0}
-	\label{fig:force05}
-\end{figure}
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=0.3\linewidth]{visio/visio/force1}
+	\includegraphics[height=0.25\linewidth]{visio/visio/force1}
 	\caption{Respuesta de MiFREN para FRA=1}
 	\label{fig:force1}
 \end{figure}
 
-\section{discuciones}
+\section{discusiones}
 
-
+una de las ventajas del control, es que siempre se mantendrá dentro de los valores deseados, en caso de que alguna de las entrada llegara a tomar valores mayores a los esperados o negativos, las funciones de pertenencia que se activaran serias las mismas que si entrara un valor máximo o mínimo, según sea el caso, por lo que el control se comportaría de forma común.
 
 

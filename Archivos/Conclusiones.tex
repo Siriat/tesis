@@ -10,9 +10,29 @@
 
 
 
-\section{Conclusiones Generales}
+%\section{Conclusiones Generales}
+
+De manera general en este trabajo se presento un metodo para remover objetos deconocidos de un area predeterminada, utilizando una imagen de profundidad y un sensor de fuerza y momentos.
+el metodo propuesto tiene como finalidad lograr sujetar y remover un objeto que se encuentre dentrro de un area predefinida, del cual no se tiene informacion previa.
+paera la deteccion del objeto se discriminaron los puntos que estubieran fuera del area de trasbajo, y para la eleccion del punto de agarre se uso el centroide, el cual es calculado comop la media de los puntos mas relevantesde las distancias del objeto. Dichos algorithmos, y tanto sus ventajas como desventajas se explican en el capitulo 2, y la importancia que tiene la calibracion en este trabajo. 
+ en el capiutulo 3 se presenta el modelo de control usado para el movieminto del robot cartesiano hacia la posicion donde se encuentra el objeto, el cual consistia en un control neuro-difuso de nombre \textit{FREN}, el cual se presenta en \cite{fren}.
+ 
+ En capitulo 4 se expplicaron los conocimientos basicos del grasping y el control que fue usado en el.
+ 
+ 
+ Los resultados que fueron mostras e el capitulo 5 demuestran que el metodo propuesto puede lograr la tarea deseada de forma aceptable%, y se observan las 
+ 
+% los experimentosse realizaron.... 
+
+%basandonos en las 
+
+%\section{22222}
+
+El mayor inconveniente de este acercamiento al problema de sujeción es que se necesitaría que fuese supervisado, lo cual va en contra de los objetivos deseados, como continuación se desea tener una base de datos que contenga los valores para una gran variedad de objetos.
 
 
+Con respecto al hecho de conseguir el centroide con la cámara, esto no garantiza que corresponda con el centro de masas del objeto, la propuesta para este problema es calcularlo con el sensor de fuerza disponible, el cual es capaz de conseguir el \textit{Wrench}, teniendo 2 sensores de este tipo, en caso de que el centro de masas este en el centroide del objeto, ambos censores deberían tener mediciones iguales, pero en caso de que no sea este el caso los sensores deberían mostrar discrepancias en las mediciones y en base a estas debería poder calcularse el valor real del cetro de masas, lo que ayudaría conseguir información adicional acerca del objeto.
+Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hecho de tener una realimentación por parte de un sensor que mida el deslizamiento de la pieza, en este caso, es imposible de hacerse con la cámara, y los sensores de \textit{Wrench}, no son capaces de medirlo. En algunos trabajos ha sido reportado que el deslizamiento puede ser medido como un tipo de ruido por vibraciones debido a la rugosidad de las superficies rozándose, por lo que se podría tener también un indicador de la rugosidad entre el \textit{Gripper} y el objeto, por desgracia los sensores que se tienen, no son capaces de distinguir este ruido, esto sumado a que, en algunas áreas de la trayectoria, el mismo robot presenta una gran cantidad de vibraciones, para conseguir la medición de deslizamiento se pretende usar una matriz de resistencias que se tendrán en los dedos del \textit{Gripper}, esta matriz mostrara variaciones de voltaje dependiendo de la fuerza con la que se sujete la pieza, siempre y cuando exista el contacto entre ambos, con esto se puede crear una imagen de presión, de la cual se puede conseguir un centroide, este representaría el punto de contacto principal, en caso que existir un área de contacto. 
 
 \section{Trabajo Futuro}
 
@@ -29,10 +49,3 @@ Otro de los inconvenientes presentados es la necesidad de calibrar, o conocer lo
 
 
 
-\section{22222}
-
-El mayor inconveniente de este acercamiento al problema de sujeción es que se necesitaría que fuese supervisado, lo cual va en contra de los objetivos deseados, como continuación se desea tener una base de datos que contenga los valores para una gran variedad de objetos.
-
-
-Con respecto al hecho de conseguir el centroide con la cámara, esto no garantiza que corresponda con el centro de masas del objeto, la propuesta para este problema es calcularlo con el sensor de fuerza disponible, el cual es capaz de conseguir el \textit{Wrench}, teniendo 2 sensores de este tipo, en caso de que el centro de masas este en el centroide del objeto, ambos censores deberían tener mediciones iguales, pero en caso de que no sea este el caso los sensores deberían mostrar discrepancias en las mediciones y en base a estas debería poder calcularse el valor real del cetro de masas, lo que ayudaría conseguir información adicional acerca del objeto.
-Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hecho de tener una realimentación por parte de un sensor que mida el deslizamiento de la pieza, en este caso, es imposible de hacerse con la cámara, y los sensores de \textit{Wrench}, no son capaces de medirlo. En algunos trabajos ha sido reportado que el deslizamiento puede ser medido como un tipo de ruido por vibraciones debido a la rugosidad de las superficies rozándose, por lo que se podría tener también un indicador de la rugosidad entre el \textit{Gripper} y el objeto, por desgracia los sensores que se tienen, no son capaces de distinguir este ruido, esto sumado a que, en algunas áreas de la trayectoria, el mismo robot presenta una gran cantidad de vibraciones, para conseguir la medición de deslizamiento se pretende usar una matriz de resistencias que se tendrán en los dedos del \textit{Gripper}, esta matriz mostrara variaciones de voltaje dependiendo de la fuerza con la que se sujete la pieza, siempre y cuando exista el contacto entre ambos, con esto se puede crear una imagen de presión, de la cual se puede conseguir un centroide, este representaría el punto de contacto principal, en caso que existir un área de contacto. 

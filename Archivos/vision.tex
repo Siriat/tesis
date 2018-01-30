@@ -1,4 +1,4 @@
-    \chapter{Segmentacion y Posicionamiento apartir de vista de una imagen RGB-d}
+    \chapter{Segmentacion y Posicionamiento a partir de vista de una imagen RGB-d}
     
     Para las aplicaciones de visión se necesita tener en cuenta el sistema en el que se estará usando y las condiciones, por esas razones se necesita tener en cuenta las consideraciones que se hicieron en el capitulo \ref{intro}. Normalmente se toman varias consideraciones cuando se buscan objetos, y se requiere información acerca de este, pero esto no es posible cuando se busca un nuevo objeto.
     
@@ -53,7 +53,7 @@
     
     \section{Camara RGB-d}
     
-    Las camaras RGB-d, como ya se habia mencionado, son camaras con....
+    Las camaras RGB-d, como ya se habia mencionado, son camaras que cuentan con un sensor de fundidad ademas de la seccion a color.
     
     
     Esta cámara trabaja con Openni que es la librería en c++, esta librería tiene funciones para usar la cámara y hacer ciertas operaciones, 
@@ -155,22 +155,31 @@
     
     \section{Implementación}
     
-    Para la implementacion de estos algoritmos se requierio hacer algunas modificaciones en la forma en la que se calculaban, ambos algoritmos para hacerlos mas eficientes.
+    Para la implementación de estos algoritmos se requirió hacer algunas modificaciones en la forma en la que se calculaban, ambos algoritmos para hacerlos mas eficientes.
     
-    En nuestro caso estamos utilizando \textit{Matlab} por lo que las operaciones con matrices son mas eficientes que realizar operaciones normales de manera iterativa, por eso mismo se implementaron los algoritmos que se tenian de forma conceptual a realizar el mayor numero de operaciones con matrices. 
+    En nuestro caso estamos utilizando \textit{Matlab} por lo que las operaciones con matrices son mas eficientes que realizar operaciones normales de manera iterativa, por eso mismo se implementaron los algoritmos que se tenían de forma conceptual a realizar el mayor numero de operaciones con matrices. 
     
-    El cambio que se tiene en el primer algritmo con respecto a su forma conceptual es que la operacion que se lleva a cabo es una multiplicacion de las coordenadas XYZ por la matriz de rotacion $R_{XYZ}$, esto se puede hacer en una sola operacion si se realizara un cambio de forma (\textit{Reshape}) a la matriz y se juntaran todos los elementos en una sola matriz, asi en vez de tener un arreglo de 3 dimenciones n*m*3, donde n representa el numero de filas m el numero de columnas y 3 los canales de XYZ, se puede modificar para tener una matriz de (n*m)*3, lo que seria lo mismo que cambiar la forma de cada matriz por un vector columna de $1\times(n*m)$ y concatenarlo con las otras 2 columnas. esto permitiria realizar la multiplicacion una vez en lugar de realizar la multiplicacion iterativamente (n*m) veces.   
+    El cambio que se tiene en el primer algoritmo con respecto a su forma conceptual es que la operación que se lleva a cabo es una multiplicación de las coordenadas XYZ por la matriz de rotación $R_{XYZ}$, esto se puede hacer en una sola operación si se realizara un cambio de forma (\textit{Reshape}) a la matriz y se juntaran todos los elementos en una sola matriz, así en vez de tener un arreglo de 3 dimensiones n*m*3, donde n representa el numero de filas m el numero de columnas y 3 los canales de XYZ, se puede modificar para tener una matriz de (n*m)*3, lo que seria lo mismo que cambiar la forma de cada matriz por un vector columna de $1\times(n*m)$ y concatenarlo con las otras 2 columnas. esto permitirá realizar la multiplicación matricial, una sola vez en lugar de realizar la multiplicación iterativa-mente (n*m) veces.   
     
-    En cuanto a la segunda parte del codigo, el chequeo de si esas coordenadas se encuentra dentro del espacio de trabajo del robot se realiza con operaciones logicas, las cuales en \textit{Matlab} estan abilitadas para ser usadas en matrices. por lo que se busca que cada elemento que sea menor o mayor (en otras palabras que este fuera del  rango permitido), sea eliminado dandole un valor de nan (not a number), esto se hace ya que no se puede eliminar por completo los espacios que se estan usando, esto porque el operador \textit{sobel} requiere esa informacion, al reemplazarlos valores por nan, estos seran ignorados en las operaciones posteriores, ya que sus valores permaneceran como nan, en cambio si se reemplazaran por ceros, traeria problemas, ya que se podrian usar en operaciones matematicas, cambiando con esto la tendencia de los datos.
+    En cuanto a la segunda parte del código, el chequeo de si esas coordenadas se encuentra dentro del espacio de trabajo del robot se realiza con operaciones lógicas, las cuales en \textit{Matlab} están habilitadas para ser usadas en matrices. por lo que se busca que cada elemento que sea menor o mayor (en otras palabras que este fuera del  rango permitido), sea eliminado dándole un valor de \textit{nan} (not a number), esto se hace ya que no se puede eliminar por completo los espacios que se están usando, esto porque el operador \textit{sobel} requiere esa información, al reemplazarlos valores por \textit{nan}, estos serán ignorados en las operaciones posteriores, ya que sus valores permanecerán como \textit{nan}, en cambio si se reemplazaran por ceros, traería problemas, ya que se podrían usar en operaciones matemáticas, cambiando con esto la tendencia de los datos.
     
-    Ahora en cuanto al segundo algoritmo, se realiza la operacion \textit{Sobel} a cada una de las dimenciones X,Y,Z. el resultado de esto son las diferencias mas representativas en las distancias de un punto a otro, para esto es necesario que el coeficiente del \textit{Sobel} sea pequeno, en caso de no serlo se perderia resolucion, se tendrian tramos demaciado grandes sin informacion. Esto deberia resultar en un arreglo de 3 matrices con los resultados del \textit{Sobel} a los cuales se sacara la media, esta es una operacion comun y corriente, pero al haber valores nan, esos valores seran excluidos, lo que permitira tener una media de solo los valores que nos interesan y esta representara el centroide del objeto.
+    Ahora en cuanto al segundo algoritmo, se realiza la operación \textit{Sobel} a cada una de las dimensiones X,Y,Z. el resultado de esto son las diferencias mas representativas en las distancias de un punto a otro, para esto es necesario que el coeficiente del \textit{Sobel} sea pequeño, en caso de no serlo se perdería resolución, existirían tramos demasiado grandes sin información. Esto debería resultar en un arreglo de 3 matrices con los resultados del \textit{Sobel} a los cuales se sacara la media, esta es una operación común y corriente, pero al haber valores \textit{nan}, esos valores serán excluidos, lo que permitirá tener una media de solo los valores que nos interesan y esta representara el centroide del objeto.
     
-    por ultimo la manera en la que se tiene esperado tomar el objeto es por la parte de arriba, esto por las limitaciones de la plataforma de pruevas, por lo tanto lo unico que se tiene que hacer es elegir una altura a la cual se deba posicionar el \textit{Gripper}, ya se habia comentado con anterioridad que se tomaria el punto mas alto de la region que sea cubierta por el \textit{Gripper} cuendo este se encuetre por sobre del objeto. 
+    por ultimo la manera en la que se tiene esperado tomar el objeto es por la parte de arriba, esto por las limitaciones de la plataforma de pruebas, por lo tanto lo único que se tiene que hacer es elegir una altura a la cual se deba posicionar el \textit{Gripper}, ya se había comentado con anterioridad que se tomaría el punto mas alto de la región que sea cubierta por el \textit{Gripper} cuando este se encuentre por sobre del objeto. 
     
-    El codigo de vision puede ser encontrado en el apendice \ref{visioncode} y los resultados pueden verse en \cref{fig1}.
+    El código de visión puede ser encontrado en el apéndice \ref{visioncode} y los resultados pueden verse en \cref{fig1}.
     
     \section{Resultados}
-    A continuación se presentan algunos de los resultados de el algoritmo, en la figura  \ref{vaso}, se puede observar el mallado de la resultado del primer algoritmo, lo cual también corresponde a la figura\ref{vas}.
+    
+    En \cref{labellist} se puede ver la imagen inicial, esta es proporcionada por la librería \textit{OpenNi}, esta imagen no es una de profundidad, sino una de 3 dimensiones con medidas en milímetros.
+    
+    
+    A continuación se presentan algunos de los resultados de el algoritmo, en la figura  \ref{vaso}, se puede observar el mallado del resultado del primer algoritmo, lo cual también corresponde a la figura {\tiny }\ref{vas}.
+    
+    en este ejemplo el único objeto que se encontraba dentro del área de trabajo era este vaso, pero en caso de que
+    
+    
+    
     en \ref{dix,diy,diz} se puede observar el \textit{Sobel} realizado sobre la figura \ref{vas}.
     
     \begin{figure}[h]
@@ -193,7 +202,7 @@
     			\includegraphics[width=.32\linewidth]{visio/diz}\label{diz}}
     		%	\hline 
     	\end{tabular}
-    	\caption{resultados experimentales del los algoritmos 1 y 2}
+    	\caption{resultados experimentales de los algoritmos 1 y 2}
     	\label{fig1} 
     \end{figure*}
     
@@ -201,15 +210,20 @@
     % buenos	malos 	regulares
 	% fig		fig		fig		
 	%caracteristicas	    
-    
+    \clearpage
     \section{Discusiones}
     
     Estos algoritmos fueron pensados para situaciones muy idealistas, en las que las consideraciones en el capitulo \ref{intro} se cumplen por lo cual no son realmente robustas ante otras condiciones. Una de las características que se esperaba tener de estos algoritmos es alta velocidad para poder implementarse en tiempo real, esta es la principal razón para que sean tan sencillos, aunque en la practica se tenia equipo que no era capaz de usar el programa a la velocidad requerida, se pudo comprobar en en un equipo externo, que el algoritmo tenia la velocidad esperada.
     
+    la finalidad principal de estos algoritmos es tener el resultado del \textit{Sobel}, desde esta imagen es posible encontrar el centroide de los demás objetos si son segmentados. por lo que se espera que sea combinado con un algoritmo de reconocimiento en el cual se encontraran los objetos conocidos y el resto de los objetos entonces serán tomados como desconocidos y or lo tanto removidos.
+    Una forma sugerida de hacer eso es eliminar de la imagen \cref{labellist}, los objetos que si hayan podido ser detectados, de esta forma sera mas fácil y no existirá algún problema cuando el otro algoritmo de detección no logre encontrar el objeto.
         
     %Algunos cambios fueron hechos para la implementación en MATLAB de dichos algoritmos, uno de los cambios mas importantes fue la rotación de la imagen del marco de la cámara al marco del robot, lo cual se no podía hacerse de la misma manera en la que fue descrito, en lugar de hacer la rotación con un ciclo iterativo, se realizo un reacomodo de la matriz de la imagen con la función \textit{reshape} haciendo que cada matriz de (x,y,z) se convirtiera en un vector de $n\times m$, se concatenaron estos vectores en una matriz de $3\times(n\times m)$ pudendo realizarse la multiplicación por una matriz de rotación de $3\times 3$ lo que ahorra mucho tiempo, al final se regresa a la forma original de la matriz para poder usarse en el resto del código.
+    uno de los aspectos mas relevantes es el hecho de poder encontrar objetos que sean difíciles de segmentar por color, por ejemplo aquellos que tengan el mismo color que el fondo, esto es obviamente debido al hecho que no utiliza colores.
+    Uno de los problemas mas grandes en un enfoque que usa una cámara de profundidad es el hecho que no puede encontrar objetos que son transparentes o altamente reflejantes.
     
-    En otros experimentos realizados se pudo observar que la cámara no reacciona bien ante objetos reflejantes, y que al algoritmo 2 no es suficientemente robusto a objetos que tengan su centroide  fuera del cuerpo.
+    
+    Un problema del algoritmo 2 es que no es suficientemente robusto a objetos que tengan su centroide  fuera del cuerpo, esto debido a la forma en la que se encuentra el punto de agarre, el cual se asume es el centroide, por lo que en casos de objetos irregulares, el centroide podría encontrarse fuera del objeto o incluso estando dentro, podría no ser un punto de agarre apropiado.
     
     %Some of the limitations of this approach are that it cannot function with reflective objects (or any other that can't be visible to the kinnect kind sensor), and that the working area is flat and its dimensions are previously known, which might present difficulties when working on a real unknown and unstructured environment.
     
