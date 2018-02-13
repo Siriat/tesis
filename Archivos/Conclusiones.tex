@@ -12,15 +12,15 @@
 
 %\section{Conclusiones Generales}
 
-De manera general en este trabajo se presento un metodo para remover objetos deconocidos de un area predeterminada, utilizando una imagen de profundidad y un sensor de fuerza y momentos.
-el metodo propuesto tiene como finalidad lograr sujetar y remover un objeto que se encuentre dentrro de un area predefinida, del cual no se tiene informacion previa.
-paera la deteccion del objeto se discriminaron los puntos que estubieran fuera del area de trasbajo, y para la eleccion del punto de agarre se uso el centroide, el cual es calculado comop la media de los puntos mas relevantesde las distancias del objeto. Dichos algorithmos, y tanto sus ventajas como desventajas se explican en el capitulo 2, y la importancia que tiene la calibracion en este trabajo. 
- en el capiutulo 3 se presenta el modelo de control usado para el movieminto del robot cartesiano hacia la posicion donde se encuentra el objeto, el cual consistia en un control neuro-difuso de nombre \textit{FREN}, el cual se presenta en \cite{fren}.
+De manera general en este trabajo se presento un método para remover objetos desconocidos de un área predeterminada, utilizando una imagen de profundidad y un sensor de fuerza y momentos.
+El método propuesto tiene como finalidad lograr sujetar y remover un objeto que se encuentre dentro de un área predefinida, del cual no se tiene información previa.
+Para la detección del objeto se discriminaron los puntos que estuvieran fuera del área de trabajo, y para la elección del punto de agarre se uso el centroide, el cual es calculado como la media de los puntos mas relevantes de las distancias del objeto. Dichos algoritmos, y tanto sus ventajas como desventajas se explican en el capitulo 2, y la importancia que tiene la calibración en este trabajo. 
+En el capitulo 3 se presenta el modelo de control usado para el movimiento del robot cartesiano hacia la posición donde se encuentra el objeto, el cual consistía en un control neuro-difuso de nombre \textit{FREN}, el cual se presenta en \cite{fren}.
  
- En capitulo 4 se expplicaron los conocimientos basicos del grasping y el control que fue usado en el.
+ En capitulo 4 se explicaron los conocimientos básicos del para la sujeción y el control que fue usado en el.
  
  
- Los resultados que fueron mostras e el capitulo 5 demuestran que el metodo propuesto puede lograr la tarea deseada de forma aceptable%, y se observan las 
+ Los resultados que fueron mostrados en el capitulo 5 demuestran que el método propuesto puede lograr la tarea deseada de forma aceptable%, y se observan las 
  
 % los experimentosse realizaron.... 
 
@@ -36,9 +36,9 @@ Por ultimo otro acercamiento al problema de la decisión de fuerza seria el hech
 
 \section{Trabajo Futuro}
 
-la siguiente sección fue presenta ideas para compensar algunas de las desventajas que se tienen en el sistema actual de visión, el cual, como ya se comento, no esta trabajando en linea.
+La siguiente sección fue presenta ideas para compensar algunas de las desventajas que se tienen en el sistema actual de visión, el cual, como ya se comento, no esta trabajando en linea.
 
-\subsection{Algoritmo  3}
+
 
 La primer idea es identificar por medio de ambas cámaras, tanto a de color como la de profundidad, al objeto, y después conseguir con el Alg. \ref{alg2} el centroide y seguirlo con las características conseguidas con la cámara de color, sin seguir usando la cámara de profundidad, aplicando esto al objeto y al \textit{Gripper}, se esperaría tener un algoritmo propiamente de servo-visión.
 

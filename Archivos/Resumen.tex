@@ -3,9 +3,20 @@
 \vspace{1em}
 \begin{center}{\Large\bf {\titlenamesp}}\end{center}
 \vspace{3em}
-Sujetar objetos es la tarea mas común para un robot inercial, en esta tarea se necesita una buena velocidad y precisión pero un bajo impacto en el contacto, en este trabajo se implementara un control de redes neurodifusas que tienen como entrada las distancias [x,y,z] entre desde el gripper hasta el objeto, usando una cama fija rgbd, ademas de usar sensores para medir la posición real y la fuerza del gripper, esto para comparar los resultados.
+
+
+
+Sujetar objetos es la tarea mas común para un robot inercial, lo mas común es tener conocimiento previo del objeto a ser sujetado, pero existen casos en los que se pueden encontrar objetos nuevos de los que no se tiene suficiente información, como en el caso de objetos externos o en el caso de exploración, o que los objetos a sujetar tengan un gran rango de formas como  en la industria  alimenticia o algún objeto defectuoso.
+
+La principal manera de enconar estos objetos desconocidos es mediante un sistema de visión, aunque existen otros medios como la interacción con el ambiente.
+Desde el abaratamiento y popularización de las cámaras de profundidad, este es ahora una de las principales formas para encontrar dichos objetos, existen 2 ramas principales para la sujeción en este método las cuales son: usar la imagen tal cual se tiene segmentada o aproximar a figuras primitivas.
+
+Una vez se conoce la posición del objeto se tienen la problemática de la sujeción, la cual se aborda normalmente con sujeción por forma, que consiste en aprisionar el objeto con varios puntos de contacto, un inconveniente de este es la complejidad, también existe la sujeción por fuerza, este consiste en sujetar el objeto con un mínimo de 2 o 3 puntos de contacto y aplicar una fuerza sobre el objeto, el problema de este segundo es que  la fuerza necesaria es desconocida.
+% en esta tarea se necesita una buena velocidad y precisión pero un bajo impacto en el contacto, en este trabajo se implementara un control de redes neuro-difusas que tienen como entrada las distancias [x,y,z] entre desde el \textit{Gripper} hasta el objeto, usando una cámara fija RGB-D, ademas de usar sensores para medir la posición real y la fuerza del \textit{Gripper}, esto para comparar los resultados.
 %Lo que se espera es ver el desempeño de las redes neurodifusas en esta tarea, se espera que las redes eliminen los errores que podría haber debido a una mala identificación de la cámara, mientras el error no sea muy grande, también se espera que la fase de sujetar sea lenta, debido a la lógica difusa.
-Los experimentos se llevaran acabo con un robot cartesiano, en condiciones controladas, para tomar un objeto cuya posición es desconocida.
+En esta tesis se presenta un esquema de control para la sujeción de un objeto desconocido en un ambiente semi-estructurado, el esquema esta compuesto por un algoritmo de visión que  usa  una cámara de profundidad, y un control adaptativo basado en inteligencia artificial usa un sensor de fuerza de 6 ejes.
+
+Se realizaron experimentos que se llevaron acabo con un robot cartesiano, en condiciones controladas, para tomar un objeto cuya posición es desconocida.
 
 % Se recomienda sólo una cuartilla
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,5 +39,25 @@ Los experimentos se llevaran acabo con un robot cartesiano, en condiciones contr
 
 
 
+Object grasping is the most common task for an inertial robot, the most common is to have prior knowledge of the object to be grasped, but there are cases in which you can find new objects that you do not have enough information, as in the case of foreign objects or in the case of exploration, or that the objects to hold have a wide range of forms such as in the food industry or some defective product.
+
+The main way to find these unknown objects is through a vision system, although there are other means such as interaction with the environment.
+Since the cheapening and popularization of depth cameras, this is now one of the main ways to find such objects, there are 2 main branches for the subjection in this method which are: use the image as it is segmented or approximate the object to Primitives
+
+Once the position of the object is known, there is the problem of grasping, which is usually dealt with form grasping, which consists of imprisoning the object with several  contact points, a drawback of this is the complexity, there is also the force grasping, this consists of holding the object with a minimum of 2 or 3 points of contact and apply a force on the object, the problem of this second is that the necessary force is unknown.
+
+
+In this thesis a control scheme for the subjection of an unknown object using force grasping in a semi-structured environment is presented, the scheme is composed of a vision algorithm that uses a depth camera, and an adaptive control based on artificial intelligence uses a sensor of force of 6 axes.
+
+Experiments were carried out with a Cartesian robot, under controlled conditions, to take an object whose position is unknown.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+

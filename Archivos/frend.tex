@@ -56,7 +56,7 @@ El código resultante puede encontrarse en \cref{codewsg50}, solo las instruccio
     U(k)= \sum  \mu_{ai} \mu_{bj} \mu_{ck} \beta_{ijk}  ,
     \end{equation}
     
-     En este caso resulta imposible usar el producto punto pero, en el caso de 2 entradas se puede realizar una multiplicación matricial, con solo cambiar arreglar los valores de beta como una matriz, el resultado de esto seria \begin{equation}
+     en este caso resulta imposible usar el producto punto pero, en el caso de 2 entradas se puede realizar una multiplicación matricial, con solo cambiar arreglar los valores de beta como una matriz, el resultado de esto seria \begin{equation}
      \label{multu}
      U(k)= \mu_{a}^{T} \beta_{ij} \mu_{b} ,
      \end{equation}  donde $\beta_{ij}$ es una matriz de dimensiones $(r_1 \times r_2)$, que para este ejemplo de 2 entradas seria:
@@ -175,7 +175,7 @@ El código resultante puede encontrarse en \cref{codewsg50}, solo las instruccio
 \section{Resultados}
 Como se puede ver en la tabla 4.1, los resultados son básicamente los esperados,  pero por el hecho de conseguirse con el producto de vectores, la forma en la que crece es de $x^{in}$, esto es un inconveniente cuando se desea que los resultados sean mas lineales, pero el hecho de simplificar el trabajo necesario es algo útil, ademas de ser un aumento suave en cada una de sus dimensiones, en \cref{fig:responce} se puede apreciar como la respuesta es suave, aunque por problemas de escala pueda parecer un poco confuso pero dentro de los limites establecidos se tiene la respuesta la cual aumenta suavemente.
 En la imagen se pueden ver pequeños valles y colinas, esto son causados por la forma cuadrática en la que crece la señal, pero no se expanden mucho ya que la señal fue hecha por una considerable cantidad de puntos, los puntos con los que fue creada esta seña son respetados y se ´puede llegar a ellos con  las mismas entradas, pero los puntos intermedios, al no ser especificados no se puede tener una mejor respuesta.
-cabe mencionar que uno de los pasos m,as importantes para conseguir una señal suave es el hecho de normalizar las funciones de pertenencia, en pasadas pruebas se tuvieron problemas, ya que en algunos momentos aumentaban o disminuían los valores, esto debido a la distribución de las funciones de pertenencia hacia aumentar o disminuir el valor de la suma, por lo que la normalización es necesaria.
+Cabe mencionar que uno de los pasos m,as importantes para conseguir una señal suave es el hecho de normalizar las funciones de pertenencia, en pasadas pruebas se tuvieron problemas, ya que en algunos momentos aumentaban o disminuían los valores, esto debido a la distribución de las funciones de pertenencia hacia aumentar o disminuir el valor de la suma, por lo que la normalización es necesaria.
 
 \begin{figure}[h]
 	\centering
@@ -187,7 +187,7 @@ cabe mencionar que uno de los pasos m,as importantes para conseguir una señal s
 
 
 
-En las \cref{fig:force0},\cref{fig:force05} y \cref{fig:force1}, se puede ver la respuesta del control en 3 valores distintos, donde las áreas azules representan situaciones donde se debería usar menos fuerza al momento de cerrar el \textit{Gripper} y las rojas situaciones donde se debe usar la mayor fuerza, estando dentro de los valores acordados,
+En las \cref{fig:force0},\cref{fig:force05} y \cref{fig:force1}, se puede ver la respuesta del control en 3 valores distintos, donde las áreas azules representan situaciones donde se debería usar menos fuerza al momento de cerrar el \textit{Gripper} y las rojas situaciones donde se debe usar la mayor fuerza, estando dentro de los valores acordados.
 
 
 
@@ -217,6 +217,6 @@ En las \cref{fig:force0},\cref{fig:force05} y \cref{fig:force1}, se puede ver la
 
 \section{discusiones}
 
-una de las ventajas del control, es que siempre se mantendrá dentro de los valores deseados, en caso de que alguna de las entrada llegara a tomar valores mayores a los esperados o negativos, las funciones de pertenencia que se activaran serias las mismas que si entrara un valor máximo o mínimo, según sea el caso, por lo que el control se comportaría de forma común.
+Una de las ventajas del control, es que siempre se mantendrá dentro de los valores deseados, en caso de que alguna de las entrada llegara a tomar valores mayores a los esperados o negativos, las funciones de pertenencia que se activaran serias las mismas que si entrara un valor máximo o mínimo, según sea el caso, por lo que el control se comportaría de forma común.
 
 

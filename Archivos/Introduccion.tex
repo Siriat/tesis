@@ -4,16 +4,17 @@
 
 %pero a causa de esto se tiene el problema de la supervision
 
-A medida que la producción aumenta se necesita que la producción sea mas rápida,un supervisor humano no puede observar el buen funcionamineto de la linea personalmente, por lo que normalmente se usan sensores para este tipo de cosas y el operario simplemente monitorea los sensores, pero por alguna u otra razón es posible encontrar objetos desconocidos dentro de la linea de producción , estos podrían dañar algunas de las maquinas.
+A medida que la producción aumenta se necesita que la producción sea mas rápida,un supervisor humano no puede observar el buen funcionamiento de la linea personalmente, por lo que normalmente se usan sensores para este tipo de cosas y el operario simplemente monitorizar los sensores, pero por alguna u otra razón es posible encontrar objetos desconocidos dentro de la linea de producción, estos podrían dañar algunas de las maquinas.
 
 %caso general
-El daño por objetos externos es conocido como FOD  por sus siglas en ingles, (\textit{Foreing object Damage}), aunque es mas conocido en aviación, no se limita solo a eso, lo mas comen es que sean las turbinas las que sean afectadas, pero en una linea de producción donde se espera algún objeto blando para ser procesado o algún tubo por el que se necesita pasar 
+El daño por objetos externos es conocido como FOD  por sus siglas en ingles, (\textit{Foreing object Damage}), aunque es mas conocido en aviación, no se limita solo a eso, lo mas comen es que sean las turbinas las que sean afectadas, pero en una linea de producción donde se espera algún objeto blando para ser procesado o algún tubo por el que se necesita pasar.
 
-esto podría traer consecuencias como la mala calidad del producto, danos a la maquinaria o daños a la salud de los consumidores.
+Esto podría traer consecuencias como la mala calidad del producto, danos a la maquinaria o daños a la salud de los consumidores.
 
 En el caso de la industria alimenticia, es incluso pero a que existen casos en los que objetos ajenos son encontrados dentro de la comida y esto daña la imagen de las empresas y trae consecuencias legales contra la misma.
 
-Existe una infinita variedad de FOD, pero los que mas se repiten son los causados por mantenimiento, en que una pequeña pieza llega a caer durante un mantenimiento, al ser tan pequeñas es probable que no sea notada,
+Existe una infinita variedad de FOD, pero los que mas se repiten son los causados por mantenimiento, en que una pequeña pieza llega a caer durante un mantenimiento, al ser tan pequeñas es probable que no sea notada.
+
 
 %Algunas de las recomendaciones para evitar el FOD 
 %\begin{figure}
@@ -25,7 +26,7 @@ Existe una infinita variedad de FOD, pero los que mas se repiten son los causado
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{../../../ad_193881805}
-	\caption{Ejemplos de FOD en la industria alimenticia.
+	\caption[Ejemplos de FOD en la industria alimenticia.]{Ejemplos de FOD en la industria alimenticia.
 		Recuperado de http://metro.co.uk/2016/01/21/what-should-i-do-if-i-find-a-foreign-object-in-my-food-dont-take-it-back-to-the-shop-5636379/}
 	\label{fig:ad193881805}
 \end{figure}
@@ -39,7 +40,7 @@ Existe una infinita variedad de FOD, pero los que mas se repiten son los causado
 \begin{figure}
 	\centering
 	\includegraphics[width=0.7\linewidth]{../../../schaufelrad1a}
-	\caption{ Recuperado de http://www.www.www.http://www.behrhellaservice.com/behr-hella-service/en/Mechanical-turbocharger-damage-5199.html}
+	\caption{ Recuperado de http://www.behrhellaservice.com/behr-hella-service/en/Mechanical-turbocharger-damage-5199.html}
 	\label{fig:schaufelrad1a}
 \end{figure}
 
@@ -58,16 +59,16 @@ Prevenir los danos causados por objetos externos en una linea de producción de 
 
 El objetivo principal de la tesis es realizar una sujeción de un objeto objeto desconocido con un robot cartesiano, de la forma mas rápida posible.
 
-\subsection{Objetivos Especificos}
+\subsection{Objetivos Específicos}
 \begin{itemize}
 	 
-\item Usar visión artificial para encontrar la ubicación del objeto
+\item Usar visión artificial para encontrar la ubicación del objeto.
 
 
-\item Mover el robot en la posición 
+\item Mover el robot en la posición.
 
 
-\item realizar la sujeción del objeto a ser retirado usando solo la fuerza necesaria
+\item realizar la sujeción del objeto a ser retirado usando solo la fuerza necesaria.
 
 
 \end{itemize}
@@ -118,8 +119,8 @@ Para el alcance del objeto se utilizó el controlador adaptativo (FREN) \cite{fr
 
 \section{Contribución}
 En este trabajo se usa una metodología ligeramente distinta a la usada en \cref{labellist},  siendo este el mas cercano.
-con la intención de hacer el código mas rápido para el calculo del centroide del objeto, usando los puntos mas relevantes de la imagen, tomando en cuenta el espaciado entre estos puntos.
-esto ayuda a calcular el centroide usando la media de los puntos.
+Con la intención de hacer el código mas rápido para el calculo del centroide del objeto, usando los puntos mas relevantes de la imagen, tomando en cuenta el espaciado entre estos puntos.
+Esto ayuda a calcular el centroide usando la media de los puntos.
 
 \section{Metodología}
 
@@ -154,15 +155,15 @@ Como se muestra en \cref{fig:1}, el control para llegar al objeto se deja como u
 
 \item Utilizar el control FREN para mover el robot.
 
-\item Diseñar los dedos a ser usando junto con el sensor de fuerza, y comparar la utilidad del sensor de fuerza incluido en el \textit{Gripper}, contra el sensor de fuerza que 
+\item Diseñar los dedos a ser usando junto con el sensor de fuerza, y comparar la utilidad del sensor de fuerza incluido en el \textit{Gripper}, contra el sensor de fuerza externo.
 \end{itemize}
 
 \section{Organización del documento}
 
 
-En el capitulo 2 se mencionaran unos conceptos básicos de visión para entender la segmentación y el calculo del centroide de los objetos, en el apéndice \cref{cinematica}, se explican algunos conceptos de matemáticas que se usan para los cambios de los marcos de referencia. en el capitulo 3 se explica el control usado para el movimiento del robot, este control pertenece a la familia de las ANFIS(Sistema Adaptativo de Inferencia Neuro-Difusa ), algunos conceptos necesarios pueden encontrarse en \cref{basesneurodifusas}. explicando paso a paso. en el capitulo 4 se habla de la decisión de fuerza que se uso para el \textit{Gripper}, 
- %estos capítulos están estructurados en una introducción, algunos conceptos básicos, el tema principal del capitulo, los resultados obtenidos en cada fase, y algunas discusiones acerca del capitulo,
-en el capitulo 5 se muestran los resultados obtenidos en los experimentos y finalmente el el capitulo 6 se presentan las conclusiones generales y se habla acerca del trabajo futuro.
+En el capítulo 2 se mencionaran unos conceptos básicos de visión para entender la segmentación y el calculo del centroide de los objetos, en el apéndice \cref{cinematica}, se explican algunos conceptos de matemáticas que se usan para los cambios de los marcos de referencia, en el capítulo 3 se explica el control usado para el movimiento del robot, este control pertenece a la familia de las ANFIS(Sistema Adaptativo de Inferencia Neuro-Difusa ), algunos conceptos necesarios pueden encontrarse en \cref{basesneurodifusas}. En el capítulo 4 se habla de la decisión de fuerza que se uso para el \textit{Gripper}, 
+ %estos capítulos están estructurados en una introducción, algunos conceptos básicos, el tema principal del capítulo, los resultados obtenidos en cada fase, y algunas discusiones acerca del capítulo,
+en el capítulo 5 se muestran los resultados obtenidos en los experimentos y finalmente el el capítulo 6 se presentan las conclusiones generales y se habla acerca del trabajo futuro.
 
 Al final del documento, en \cref{diseno} se muestran los planos del los dedos del \textit{Gripper}, en \cref{publicaciones} se muestra una publicación que fue resultado de este trabajo, y finalmente en \cref{codigo} esta incluido el código que se uso, ya sea el código de visión, el de control junto con algunas funciones necesarias, el comunicación con el \textit{Gripper} y el código completo.
 
